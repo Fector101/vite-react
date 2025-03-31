@@ -1,0 +1,109 @@
+.polls-page .polls-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.polls-page .poll-card {
+    box-shadow: 1px 1px 1px 1px rgba(220, 218, 218, 0.75);
+    border-radius: 13px;
+    padding: 20px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: white;
+}
+
+.polls-page .poll-card .row {
+    justify-content: space-between;
+}
+
+.polls-page .poll-card .badge {
+    font-size: 11px;
+    width: 70px;
+    height: 25px;
+    color: green;
+    border: 1px solid #8bd58b;
+    background-color: #d0ffb6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-weight: 700;
+    padding-right: 8px;
+}
+
+.polls-page .poll-card .badge svg {
+    --size: 30px;
+    /* width: var(--size); */
+    height: var(--size);
+}
+
+.polls-page .poll-card .row .caption {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.polls-page .poll-card .row .caption svg {
+    margin-right: 8px;
+    --size: 17px;
+    width: var(--size);
+    height: var(--size);
+}
+
+
+.polls-page .poll-card h3 {
+    margin-block: 2px;
+    font-size: 17px;
+}
+
+.polls-page .poll-card .description {
+    font-size: 14px;
+}
+
+.polls-page .poll-card a {
+    width: 120px;
+    /* border-radius: 10px; */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: auto;
+}
+
+.polls-page .poll-card a svg {
+    margin-left: 8px;
+    --size: 18px;
+    width: var(--size);
+    height: var(--size);
+}
+
+@media screen and (max-width:460px) {
+
+    .polls-page .poll-card .row .caption {
+        font-size: 12px;
+    }
+
+    .polls-page .poll-card .row .caption svg {
+        --size: 15px;
+    }
+
+    .polls-page .poll-card h3 {
+        font-size: 14px;
+    }
+
+    .polls-page .poll-card .description {
+        font-size: 13px;
+    }
+
+    .polls-page .poll-card a {
+        font-size: 13px;
+    }
+}

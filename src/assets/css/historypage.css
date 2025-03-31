@@ -1,0 +1,85 @@
+.history-page .recent-votings{
+    padding: 20px;
+    box-shadow:none;
+    border-radius: 15px;
+    /* background: #000; */
+}
+.history-page .recent-votings .main-votings-box{
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center
+}
+.history-page .recent-votings .voting-stats-card{
+    width: 300px;
+    font-size: 14px;
+
+}
+
+
+.history-page .voting-stats-card .caption {
+    font-size: 13px;
+}
+.history-page .voting-stats-card .row {
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.history-page .voting-stats-card .badge {
+    font-size: 11px;
+    width: 70px;
+    height: 25px;
+    color: green;
+    border: 1px solid #8bd58b;
+    background-color: #d0ffb6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-weight: 700;
+    padding-right: 8px;
+}
+
+.history-page .voting-stats-card .badge svg {
+    --size: 30px;
+    /* width: var(--size); */
+    height: var(--size);
+}
+
+.history-page .voting-stats-card .row .caption {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.history-page .voting-stats-card .row .caption svg {
+    margin-right: 8px;
+    --size: 17px;
+    width: var(--size);
+    height: var(--size);
+}
+
+
+.history-page .voting-stats-card .view-all-votes-btn{
+    font-size: 13px;
+    padding: 10px 10px;
+}
+.history-page .voting-stats-card .view-all-votes-btn svg{
+    --size:16px;
+}
+@media screen and (max-width:500px) {
+
+    .history-page.page .heading{
+        padding: 20px 20px;
+        padding-bottom: 0;
+        margin-bottom: 10px;
+
+    }
+    .history-page.page{
+        padding: 20px;
+    }
+    .history-page .recent-votings .voting-stats-card{
+        width: 100%;
+    }
+}

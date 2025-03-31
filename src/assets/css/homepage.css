@@ -1,0 +1,210 @@
+.preview-stats-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-stats-box .card {
+    box-shadow: 0px 0px 4px 1px rgb(161 161 161 / 41%);
+    --width:270px;
+    width: var(--width);
+    min-width:max-content;
+    max-width: 99%;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    /* height: 160px; */
+}
+
+.preview-stats-box .card h3 {
+    color: rgb(65, 64, 64);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.preview-stats-box .card .title-box {
+    justify-content: space-between;
+}
+
+.preview-stats-box .card .icon-row {
+    /* background: #000; */
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.preview-stats-box .card .icon-row svg {
+    --size: 25px;
+    width: var(--size);
+    height: var(--size);
+    background-color: rgb(151, 245, 151);
+    color: rgb(102, 153, 25);
+    padding: 4px;
+    border-radius: 3px;
+}
+
+.preview-stats-box .card>div:last-child {
+    font-size: 14px;
+}
+
+.preview-stats-box .card a {
+    display: flex;
+    align-items: center;
+    color: rgb(4, 170, 170);
+    gap: 5px;
+}
+
+.preview-stats-box .card .strong {
+    font-size: 20px;
+    white-space: nowrap;
+    max-width: 200px;
+    min-width: 0;
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* color: aqua; */
+}
+
+.preview-stats-box .card strong {
+    /* color: red; */
+    font-size: 30px;
+}
+
+.preview-stats-box .card .badge {
+    --size: 32px;
+    width: var(--size);
+    height: var(--size);
+
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.badge.blue {
+    color: navy;
+    background: #bdbef5;
+}
+
+.badge.green {
+    color: green;
+    background: #c2fba2;
+}
+
+.badge.purple {
+    color: purple;
+    background-color: #eeb4ee;
+}
+
+.badge.yellow {
+    background-color: #e8e192;
+    color: #8a8a00;
+
+}
+
+.recent-votings {
+    padding: 20px;
+    box-shadow: 1px 1px 1px 1px rgb(161, 161, 161);
+    border-radius: 15px;
+    /* background: #000; */
+}
+
+.recent-votings .heading {
+    /* background: #000; */
+    font-size: 15px;
+    padding-bottom: 20px;
+}
+
+.recent-votings .heading button {
+    border: 1px solid rgb(161, 159, 159);
+    border-radius: 10px;
+    background-color: white;
+    height: 33px;
+    max-width: 99%;
+}
+
+.recent-votings .main-votings-box {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.recent-votings .voting-stats-card {
+    box-shadow: 1px 1px 1px 1px rgba(196, 196, 196, 0.748);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.recent-votings .voting-stats-card h4 {
+    margin-bottom: 5px;
+}
+
+.recent-votings .voting-stats-card .runners-box {
+    /* background: #000; */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.voting-stats-card .runners-box .row {
+    padding: 0 10px;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.voting-stats-card .view-all-votes-btn {
+    width: max-content;
+    padding: 10px 7px;
+    font-size: 14px;
+    align-self: flex-end;
+    margin-right: 10px;
+    /* height: 35px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* text-align: center; */
+}
+
+.voting-stats-card .view-all-votes-btn svg {
+    --size: 20px;
+    margin-left: 5px;
+    width: var(--size);
+    height: var(--size);
+}
+
+@media screen and (max-width:460px) {
+    .home-page {
+        padding: 30px 20px;
+    }
+
+    .home-page .heading button {
+        height: 38px;
+        width: 200px;
+        padding: 0 5px;
+    }
+
+    .recent-votings .voting-stats-card {
+        font-size: 12px !important;
+    }
+
+    .voting-stats-card .runners-box .row {
+        font-size: 12px !important;
+    }
+
+    .voting-stats-card .view-all-votes-btn {
+        font-size: 10px;
+    }
+
+    .voting-stats-card .view-all-votes-btn svg {
+        --size: 15px;
+    }
+}

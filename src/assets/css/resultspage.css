@@ -1,0 +1,46 @@
+.results-page > .heading {
+
+}
+
+.results-page .results-box{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+.results-page .result-card {
+    box-shadow: 0px 0px 4px 1px rgb(161 161 161 / 41%);
+    padding: 1.3rem 1rem;
+    border-radius: 20px;
+}
+
+.results-page .result-card .header h3{
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    /* background: #000; */
+    /* padding: ; */
+}
+.results-page .result-card .header .caption{
+    font-size: 14px;
+}
+.results-page .result-card .header button{
+    border: 1px solid rgb(162, 161, 161);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 90px;
+    height: 35px;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.387);
+}
+.results-page .result-card .header button svg{
+    --size: 15px;
+    width: var(--size);
+    height: var(--size);
+}
+.results-page .result-card .total-votes-p{
+    font-size: 13px;
+    margin-top: 20px;
+}
