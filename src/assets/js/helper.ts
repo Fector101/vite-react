@@ -1,132 +1,136 @@
-import { genreIds } from "./api_data"
-
 /**
- *  Changes String first letter to Captial Case
+ *  Changes String first letter to Capital Case
  * @param {string} str
  * @returns {string} string in Title Case
- */const toTitleCase = str => str.slice(0, 1) + str.slice(1)
+ */
+const toTitleCase = (str: string): string => str.slice(0, 1) + str.slice(1);
 
-
-// A collection of Helpful Independent Functions
 /**
- *  Computes list to give string with space at front if str_or_list is not undefined
- * @param {string[]|string} str_or_list - classes set the parent element class.
+ * Computes list to give string with space at front if str_or_list is not undefined
+ * @param {string[] | string | undefined} str_or_list - classes set the parent element class.
  * @returns {string} A String
  */
-function returnClass(str_or_list) {
-	if (!str_or_list) { return '' }
-	else if (typeof str_or_list === 'string') {
-		return ' ' + str_or_list
-	}
-	else if (Array.isArray(str_or_list)) {
-		return ' ' + str_or_list.join(' ')
-	}
+function returnClass(str_or_list?: string | string[]): string {
+    if (!str_or_list) return "";
+    if (typeof str_or_list === "string") return " " + str_or_list;
+    if (Array.isArray(str_or_list)) return " " + str_or_list.join(" ");
+    return "";
 }
+
 /**
- * 
- * @param {Number} start 
- * @param {Number} end 
- * @returns {Number} A random Number from given range.
+ * Generates a random integer within a specified range.
+ * @param {number} start
+ * @param {number} end
+ * @returns {number} A random Number from given range.
  */
-function randInt(start = 0, end) {
-	const gen = () => Math.trunc(Math.random() * end)
-	let int_ = gen()
-	if (int_ < start) {
-		randInt()
-	}
-	return int_
+function randInt(start: number = 0, end: number): number {
+    const gen = (): number => Math.trunc(Math.random() * end);
+    const int_ = gen();
+    if (int_ < start) {
+        return randInt(start, end);
+    }
+    return int_;
 }
 
-
-function isTouchDevice() {
-	return "ontouchstart" in window || navigator.maxTouchPoints > 0;
-}
 /**
- * 
- * @param {Number|String} secs__ 
- * @returns {String}
+ * Determines if the current device is a touch device.
+ * @returns {boolean}
  */
-function toHHMMSS(secs__) {
-	let sec_num = parseInt(secs__, 10)
-	let hrs = Math.floor(sec_num / 3600)
-	let mins = Math.floor((sec_num - (hrs * 3600)) / 60)
-	let secs = sec_num - (hrs * 3600) - (mins * 60)
-	let format = (arg) => arg.toString().padStart(2, '0')
-
-	return `${format(hrs)}:${format(mins)}:${format(secs)}`
+function isTouchDevice(): boolean {
+    return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 }
+
 /**
- * 
- * @param {Number} decimal_number if input is 5.0 output will be 0
- * @returns {Number} if input is 5.12 output will be 0.12
+ * Converts seconds to HH:MM:SS format.
+ * @param {number | string} secs__
+ * @returns {string}
  */
-export function parseDecimalSide(decimal_number) {
-	decimal_number = decimal_number.toString()
-	if (decimal_number.includes('.')) {
-		let list_of_values_nd_dot = decimal_number.split('.')
-		let value = list_of_values_nd_dot[list_of_values_nd_dot.length - 1]
-		return Number('0.' + value)
-	}
-	else { return 0 }
+function toHHMMSS(secs__: number | string): string {
+    const sec_num = parseInt(secs__.toString(), 10);
+    const hrs = Math.floor(sec_num / 3600);
+    const mins = Math.floor((sec_num - hrs * 3600) / 60);
+    const secs = sec_num - hrs * 3600 - mins * 60;
+    const format = (arg: number) => arg.toString().padStart(2, "0");
+
+    return `${format(hrs)}:${format(mins)}:${format(secs)}`;
 }
 
-function getGenreName(id) {
-	return genreIds[id]
+/**
+ * Extracts the decimal part of a number.
+ * @param {number} decimal_number if input is 5.0 output will be 0
+ * @returns {number} if input is 5.12 output will be 0.12
+ */
+export function parseDecimalSide(decimal_number: number): number {
+    const decimalStr = decimal_number.toString();
+    if (decimalStr.includes(".")) {
+        const [, value] = decimalStr.split(".");
+        return Number("0." + value);
+    }
+    return 0;
 }
 
-
-
-// For Scroll   Disabling/Enableing
-
-let __keys = { 37: 1, 38: 1, 39: 1, 40: 1 }
-function preventDefault(e) {
-	e.preventDefault()
+// For Scroll Disabling/Enabling
+const __keys: Record<number, number> = { 37: 1, 38: 1, 39: 1, 40: 1 };
+function preventDefault(e: Event): void {
+    e.preventDefault();
 }
 
-let here;
-function preventDefaultForScrollKeys(e) {
-	if (__keys[e.keyCode]) {
-		preventDefault(e)
-		here = 'here'
-
-		return false
-	}
+function preventDefaultForScrollKeys(e: KeyboardEvent): boolean {
+    if (__keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
+    return true;
 }
-let supportPassive = false
+
+let supportPassive = false;
+// Test for passive event listener support
 try {
-	// TODO Gotten from my electro player google what means later 
-	window.addEventListener('test', null, Object.defineProperty({}, 'passive', {
-		get: function () { supportPassive = true }
-	}))
+    const options = Object.defineProperty({}, "passive", {
+        get: function (this) {
+            supportPassive = true;
+            return true;
+        },
+    });
+
+    window.addEventListener(
+        "test",
+        () => {},
+        options as AddEventListenerOptions
+    );
+    window.removeEventListener("test", () => {}, options);
 } catch (e) {
-	console.log(e)
-}
-let wheelOpt = supportPassive ? { passive: false } : false;
-let wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-function disableScroll() {
-	window.addEventListener('DOMMouseScroll', preventDefault, false)// older
-	window.addEventListener(wheelEvent, preventDefault, wheelOpt)
-	window.addEventListener('touchmove', preventDefault, wheelOpt) //For mobile
-	window.addEventListener('keydown', preventDefaultForScrollKeys, false)
-
-}
-async function enableScroll() {
-	here = 'there'
-	window.removeEventListener('DOMMouseScroll', preventDefault, false)// older
-
-	window.removeEventListener(wheelEvent, preventDefault, wheelOpt)
-	window.removeEventListener('touchmove', preventDefault, wheelOpt) //For mobile
-	window.removeEventListener('keydown', preventDefaultForScrollKeys, false)
-
+    console.log(e);
+    // Browser does not support passive events
 }
 
 
+const wheelOpt: AddEventListenerOptions | boolean = supportPassive
+    ? { passive: false }
+    : false;
+const wheelEvent: string =
+    "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
 
+function disableScroll(): void {
+    window.addEventListener("DOMMouseScroll", preventDefault, false); // older
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.addEventListener("touchmove", preventDefault, wheelOpt); // For mobile
+    window.addEventListener("keydown", preventDefaultForScrollKeys, false);
+}
 
+async function enableScroll(): Promise<void> {
+    window.removeEventListener("DOMMouseScroll", preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener("touchmove", preventDefault, wheelOpt);
+    window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
+}
 
-
-
-
-
-
-export { isTouchDevice, returnClass, randInt, toHHMMSS, toTitleCase, getGenreName,disableScroll,enableScroll }
+export {
+    isTouchDevice,
+    returnClass,
+    randInt,
+    toHHMMSS,
+    toTitleCase,
+    disableScroll,
+    enableScroll,
+};

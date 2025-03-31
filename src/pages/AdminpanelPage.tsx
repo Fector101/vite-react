@@ -1,11 +1,20 @@
-import { Calendar, CheckSquare, Filter, Plus, Users, XSquare } from 'lucide-react'
-import '../assets/css/adminpanelpage.css'
-import { useEffect, useState } from 'react'
+import { Calendar, CheckSquare, Filter, Plus, Users, XSquare } from 'lucide-react';
+import '../assets/css/adminpanelpage.css';
+import { useEffect, useState } from 'react';
+
+interface Poll {
+    id: number;
+    title: string;
+    description: string;
+    created: string;
+    endDate: string;
+    participants: number;
+    status: 'Active' | 'Closed';
+}
 
 export default function Adminpanelpage() {
-    const [polls, setPolls] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
+    const [polls, setPolls] = useState<Poll[]>([]);
+    
     useEffect(() => {
         setPolls([
             {
@@ -15,7 +24,7 @@ export default function Adminpanelpage() {
                 created: "25/03/2025",
                 endDate: "1 Jan 1111",
                 participants: 0,
-                status: "Active"
+                status: "Active",
             },
             {
                 id: 2,
@@ -24,7 +33,7 @@ export default function Adminpanelpage() {
                 created: "17/03/2025",
                 endDate: "26 Mar 2025",
                 participants: 74,
-                status: "Active"
+                status: "Active",
             },
             {
                 id: 3,
@@ -33,7 +42,7 @@ export default function Adminpanelpage() {
                 created: "21/03/2025",
                 endDate: "No end date",
                 participants: 174,
-                status: "Active"
+                status: "Active",
             },
             {
                 id: 4,
@@ -42,8 +51,8 @@ export default function Adminpanelpage() {
                 created: "22/02/2025",
                 endDate: "9 Mar 2025",
                 participants: 128,
-                status: "Closed"
-            }
+                status: "Closed",
+            },
         ]);
     }, []);
 
@@ -56,7 +65,8 @@ export default function Adminpanelpage() {
                 </div>
                 <button className="primary-btn">
                     <Plus />
-                    Create New Poll</button>
+                    Create New Poll
+                </button>
             </section>
             <section className='polls-section'>
                 <div className='row head'>
@@ -68,14 +78,12 @@ export default function Adminpanelpage() {
                     </div>
                 </div>
                 <div className='row sub-text caption'><Calendar />
-                    <p>Showing {polls.length} Polls
-                    </p>
+                    <p>Showing {polls.length} Polls</p>
                 </div>
                 <table>
                     <thead>
                         <tr>
                             <th>Title</th>
-                            {/* <th>Created By</th> */}
                             <th>Created</th>
                             <th>End Date</th>
                             <th><Users /></th>
@@ -83,7 +91,7 @@ export default function Adminpanelpage() {
                         </tr>
                     </thead>
                     <tbody>
-                    {polls.map((poll) => (
+                        {polls.map((poll) => (
                             <tr key={poll.id}>
                                 <td>
                                     <div className="poll-title">
@@ -109,6 +117,6 @@ export default function Adminpanelpage() {
                     </tbody>
                 </table>
             </section>
-        </div >
-    )
+        </div>
+    );
 }
