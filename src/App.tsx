@@ -50,7 +50,9 @@ function App() {
 
     return (
         <>
-            {!["/", "/login", '/signup'].includes(location.pathname) && <Header className={`sidebar ${header_state ? "show" : "hide"}`} />}
+            {/* {!["/", "/login", '/signup'].includes(location.pathname) &&  */}
+            <Header className={`sidebar ${header_state ? "show" : "hide"}`} />
+             {/* } */}
 
             <Routes>
                 <Route path="/" element={<Landingpage />} />
