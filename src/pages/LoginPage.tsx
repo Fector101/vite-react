@@ -1,15 +1,16 @@
 import React,{ useState } from "react";
-import { Mail, Lock, Vote } from "lucide-react";
+import { Lock, Vote, IdCard } from "lucide-react";
 import './../assets/css/loginpage.css'
+import { Link } from "react-router";
 
 
 export default function Loginpage() {
-    const [email, setEmail] = useState("");
+    const [matric_no, setMatricNo] = useState("");
     const [password, setPassword] = useState("");
 
     function handleSubmit(e:React.FormEvent<HTMLFormElement>):void {
         e.preventDefault();
-        console.log({ email, password });
+        console.log( matric_no, password);
     };
 
     return (
@@ -21,14 +22,15 @@ export default function Loginpage() {
                 <h2>E3Voting</h2>
                 <p className="subtitle">Sign in to your account</p>
                 <form onSubmit={handleSubmit}>
-                    <label>Email</label>
+                    <label>Martric No</label>
                     <div className="input-group">
-                        <Mail className="icon" />
+                        <IdCard className="icon" />
                         <input
-                            type="email"
-                            placeholder="youremail@nsuk.edu.ng"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="text"
+                            placeholder="FT23CMP0040"
+                            // placeholder="youremail@nsuk.edu.ng"
+                            value={matric_no}
+                            onChange={(e) => setMatricNo(e.target.value)}
                             required
                         />
                     </div>
@@ -47,6 +49,10 @@ export default function Loginpage() {
 
                     <button type="submit" className="signin-btn primary-btn">Sign in</button>
                 </form>
+                <div className='redirect flex'>
+                    <p className="caption">Don't have an account?</p>
+                    <Link to='/signup' >Sign Up</Link>
+                </div>
             </div>
         </div>
     );

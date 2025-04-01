@@ -10,6 +10,8 @@
 .signin-box {
     background: white;
     padding: 40px;
+    padding-bottom: 20px;
+
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -92,4 +94,10 @@ label {
 
 .signin-btn:hover {
     background: #0056b3;
+}
+.signin-container .redirect{
+    gap: 10px;
+    /* background: #000; */
+    font-size: 14px;
+    margin-top: 20px;
 }
