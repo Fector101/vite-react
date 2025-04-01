@@ -80,6 +80,9 @@ body>#root {
     border-radius: 10px;
     border-style: none;
 }
+.primary-btn:hover{
+    background-color: #62c3e3;
+}
 
 .state.badge {
     font-size: 11px;

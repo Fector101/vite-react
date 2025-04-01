@@ -1,11 +1,7 @@
 import { ArrowRight, Vote } from "lucide-react";
 import '../assets/css/landingpage.css';
 import { Link } from "react-router-dom";
-{/* <div>
-            <h1> Welcome to Grimoire </h1>
-            <p> Grimoire is a web application that allows users to keep track of their favorite movies and TV shows. </p>
-            <p> To get started, please log in or sign up. </p>
-        </div> */}
+
 export default function Landingpage() {
     return (
         <div className="landingpage page">
@@ -14,7 +10,8 @@ export default function Landingpage() {
                     <Vote />
                     <h3>E3Voting</h3>
                 </div>
-                <Link to='login' className="grey-btn">Login</Link>
+                <Link to='/signup' className="btn grey-btn">Sign Up</Link>
+                <Link to='/login' className="btn primary-btn">Login</Link>
             </section>
             <section className="main">
                 <h1>E3Voting <span>Platform</span></h1>

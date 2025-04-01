@@ -7,7 +7,7 @@
 .landingpage .header {
     /* background: #000; */
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     padding: 20px;
 }
 
@@ -26,6 +26,26 @@
 .landingpage section:not(.header) {
     padding: 0 20px;
 }
+
+
+
+
+
+.landingpage .header .btn:first-of-type{
+    margin-left: auto;
+    margin-right: 10px;
+}
+.landingpage .header .btn{
+    text-decoration: none;
+    padding: 8px 15px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+
+
+
 
 .landingpage .main {
     display: flex;
