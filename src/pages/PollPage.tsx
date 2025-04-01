@@ -1,5 +1,7 @@
 import { AlertCircle, ArrowLeft, Clock, Dot, Vote } from "lucide-react";
-import { useParams, useNavigate } from "react-router";
+import { 
+    // useParams,
+    useNavigate } from "react-router";
 import '../assets/css/quick-styles.css'
 import '../assets/css/pollpage.css'
 import MyBarChart from "../ui/MyBarChart";
@@ -21,13 +23,14 @@ function Choice({ text, setSelected, selected }: { text: string; setSelected: (v
 }
 
 const PollPage = () => {
-    const { id } = useParams();
+    // const { id } = useParams();
     const navigate = useNavigate();
     const [selected, setSelected] = useState<string | null>(null);
     const [card_width, setCardWidth] = useState(0);
     const [ongoing, setOngoing] = useState(1);
 
     useEffect(() => {
+        setOngoing(0)
         const handleResize = () => {
             const card_width = document.querySelector(".voting-card")?.getBoundingClientRect().width || 100;
             setCardWidth(card_width);

@@ -1,4 +1,4 @@
-import { TrendingUp, ChartColumn, Vote, ArrowRight, Clock, Users, Plus } from "lucide-react"
+import { TrendingUp, ChartColumn, Vote, ArrowRight, Clock, Users } from "lucide-react"
 import '../assets/css/homepage.css'
 import { Link,useNavigate } from "react-router";
 
