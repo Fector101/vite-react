@@ -42,7 +42,7 @@ export default function VotingStatsCard({ title, des, runners_info_tuple }: { ti
                 })}
             </div>
             <p>Total votes: {total_votes}</p>
-            <a className="view-all-votes-btn primary-btn">View qDetails <ArrowRight /></a>
+            <a className="view-all-votes-btn primary-btn">View Details <ArrowRight /></a>
         </div>
     )
 }

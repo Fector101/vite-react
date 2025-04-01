@@ -18,7 +18,7 @@ import { Link, Outlet, useLocation } from "react-router";
 
 
 
-export default function Header({className}:{className:string}) {
+export default function Header({ className }: { className: string }) {
     // userName='Dev'
     const location = useLocation();
     const navItems = [
@@ -56,7 +56,11 @@ export default function Header({className}:{className:string}) {
                     <Link className="title" to='/' >E3Voting</Link>
                 </section>
                 <section className='nav'>
-                    {navItems.map((each, i) => <Link key={i} to={each.link} className={`row ${location.pathname === each.link ? "active" : ""}`}> {each.icon} {each.title} <ChevronRight className="arrow" /></Link>)
+                    {navItems.map((each, i) =>
+                        <Link key={i} to={each.link} className={`row ${location.pathname === each.link ? "active" : ""}`}>
+                            {each.icon} {each.title}
+                            {location.pathname === each.link && <ChevronRight className="arrow" />}
+                        </Link>)
                     }
                 </section>
                 <section className='last-box'>

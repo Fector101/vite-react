@@ -17,6 +17,11 @@ body section.display-none {
     color: #f7f7b9;
 }
 
+.row {
+    display: flex;
+}
+
+
 .cursor-pointer {
     cursor: pointer;
 }
@@ -36,13 +41,19 @@ body section.display-none {
 .flex {
     display: flex;
 }
-
+.flex-wrap{
+    flex-wrap: wrap;
+}
 .overflow-hidden {
     overflow: hidden;
 }
 
 .align-self-cen {
     align-self: center;
+}
+
+.x-flex-align {
+    justify-content: center;
 }
 
 .algin-left {
@@ -118,4 +129,20 @@ body section.display-none {
 
 .caption {
     color: rgb(75 85 99);
+}
+
+
+
+.grey-btn{
+    text-decoration: none;
+    padding: 8px 15px;
+    font-size: 15px;
+    background-color: #f5f5f5;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.grey-btn:hover{
+    background-color: var(--primary-btn-bg);
 }

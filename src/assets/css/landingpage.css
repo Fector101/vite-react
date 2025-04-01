@@ -22,19 +22,7 @@
     color: var(--primary-btn-bg);
 }
 
-.landingpage .header .login-btn {
-    text-decoration: none;
-    padding: 8px 15px;
-    font-size: 15px;
-    background-color: #f5f5f5;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.landingpage .header .login-btn:hover{
-    background-color: var(--primary-btn-bg);
-}
+
 .landingpage section:not(.header) {
     padding: 0 20px;
 }

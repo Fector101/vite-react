@@ -43,7 +43,7 @@
     --size: 25px;
     width: var(--size);
     height: var(--size);
-    background-color: rgb(151, 245, 151);
+    /* background-color: rgb(151, 245, 151); */
     color: rgb(102, 153, 25);
     padding: 4px;
     border-radius: 3px;
@@ -58,6 +58,13 @@
     align-items: center;
     color: rgb(4, 170, 170);
     gap: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+.preview-stats-box .card a svg{
+    --size: 20px;
+    width: var(--size);
+    height: var(--size);
 }
 
 .preview-stats-box .card .strong {
@@ -119,11 +126,18 @@
     padding-bottom: 20px;
 }
 
-.recent-votings .heading button {
+.recent-votings .heading a {
+    text-decoration: none;
+    color: black;
+    font-size: 13px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
     border: 1px solid rgb(161, 159, 159);
     border-radius: 10px;
     background-color: white;
     height: 33px;
+    padding: 0 8px;
     max-width: 99%;
 }
 
@@ -134,7 +148,7 @@
 }
 
 .recent-votings .voting-stats-card {
-    box-shadow: 1px 1px 1px 1px rgba(196, 196, 196, 0.748);
+    box-shadow: 0px 0px 4px 1px rgba(161, 161, 161, 0.41);
     border-radius: 10px;
     padding: 20px;
     display: flex;
@@ -164,7 +178,7 @@
 .voting-stats-card .view-all-votes-btn {
     width: max-content;
     padding: 10px 7px;
-    font-size: 14px;
+    font-size: 13px;
     align-self: flex-end;
     margin-right: 10px;
     /* height: 35px; */
@@ -175,7 +189,7 @@
 }
 
 .voting-stats-card .view-all-votes-btn svg {
-    --size: 20px;
+    --size: 18px;
     margin-left: 5px;
     width: var(--size);
     height: var(--size);

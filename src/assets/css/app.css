@@ -5,9 +5,11 @@
     border: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     overflow-y: hidden;
 }
+
 body>#root {
     min-height: 100vh;
     height: 100%;
@@ -27,11 +29,11 @@ body>#root {
     color: var(--bod-color);
 
 
-    --primary-btn-bg:#17a1cf;
+    --primary-btn-bg: #17a1cf;
     display: flex;
     overflow-y: hidden;
     /* flex-direction: column; */
-  
+
 }
 
 .page {
@@ -41,6 +43,7 @@ body>#root {
     overflow-y: scroll;
     height: 100vh;
 }
+
 .page .heading button {
     height: 38px;
     padding: 0 10px;
@@ -49,7 +52,7 @@ body>#root {
     justify-content: center;
 }
 
-.page .heading button svg{
+.page .heading button svg {
     --size: 20px;
     margin-right: 5px;
     width: var(--size);
@@ -64,20 +67,66 @@ body>#root {
     justify-content: space-between;
     align-items: center;
 }
+
 .page section {
     margin-bottom: 40px;
 }
 
 
 
-.primary-btn{
+.primary-btn {
     background-color: var(--primary-btn-bg);
     color: white;
     border-radius: 10px;
     border-style: none;
 }
-.row {
+
+.badge {
+    font-size: 11px;
+    width: 70px;
+    height: 25px;
+    color: green;
+    border: 1px solid #8bd58b;
+    background-color: #d0ffb6;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-weight: 700;
+    padding-right: 8px;
+}
+
+.badge svg {
+    --size: 30px;
+    /* width: var(--size); */
+    height: var(--size);
 }
 
 
+
+.circular-checkbox {
+    appearance: none;
+    --size: 18px;
+    /* padding: 10px; */
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    border: 1px solid #02B2AF;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.circular-checkbox:checked {
+    background-color: #02B2AF;
+}
+
+.circular-checkbox:checked::before {
+    content: "✔";
+    font-size: 14px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

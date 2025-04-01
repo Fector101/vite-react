@@ -1,5 +1,6 @@
 import { TrendingUp, ChartColumn, Vote, ArrowRight, Clock, Users, Plus } from "lucide-react"
 import '../assets/css/homepage.css'
+import { Link } from "react-router-dom";
 
 function Myprogress({value}:{value:string|number}) {
     console.log(value+'%')
@@ -34,7 +35,7 @@ function VotingStats({ title, des, runners_info_tuple }: { title: string, des: s
                 })}
             </div>
             <p>Total votes: {total_votes}</p>
-            <a className="view-all-votes-btn primary-btn">View Dqetails <ArrowRight /></a>
+            <a className="view-all-votes-btn primary-btn">View Details <ArrowRight /></a>
         </div>
     )
 }
@@ -131,7 +132,7 @@ export default function Homepage() {
                         <Clock className="badge purple" />
                     </div>
                     <div>
-                        <a>View active polls <ArrowRight /></a>
+                        <Link to='/polls'>View active polls <ArrowRight /></Link>
                     </div>
                 </div>
                 <div className="card vote-item">
@@ -151,7 +152,7 @@ export default function Homepage() {
             <section className="recent-votings">
                 <div className="heading">
                     <h3>Recent Active Polls</h3>
-                    <button>View All</button>
+                    <Link to='/polls'>View All</Link>
                 </div>
                 <div className="main-votings-box">
                     {votingStatsArray.map((votingData, index) => (
@@ -159,22 +160,7 @@ export default function Homepage() {
                     ))}
                 </div>
             </section>
-            {/* <main>
-                {top_movies_data__ && <Carousel data={top_movies_data__.results?.slice(0, 7)} />}
-            </main>
-            {top_movies_data__ &&
-                <>
-                    <SectionPreview title={'Trending'} icon={<TrendingUp />} data_info={{ types: ['Movies', 'TV Shows'], active: 'Movies' }} data={top_movies_data__.results} url='trending' />
-                    <SectionPreview title={'Top'} icon={<ChartNoAxesColumn />} data_info={{ types: ['Movies', 'TV Shows'], active: 'Movies' }} data={top_movies_data__.results} url='top' />
-                    <SectionPreview title={'Ongoing'} icon={<Tv />} data_info={{ types: ['TV Shows'] }} data={top_movies_data__.results} url='ongoing' />
-                    <Recommendations data={top_movies_data__.results.slice(0, 6)} />
-                    <div className="SectionPreview">
-                        <LoginComponent />
-                    </div>
-                </>
-            } */}
+
         </div>
     )
 }
-// {/* add ongoing,top,trending,Upcoming to Movies/Shows page */}
-// {/* <SectionPreview title={'Upcoming'} icon={<Clock3 />} data_info={{types:['Movies','TV Shows'],active:'Movies'}} data={top_movies_data__.results}/> */}

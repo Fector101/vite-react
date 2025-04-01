@@ -14,7 +14,7 @@ export default function Landingpage() {
                     <Vote />
                     <h3>E3Voting</h3>
                 </div>
-                <Link to='login' className="login-btn">Login</Link>
+                <Link to='login' className="grey-btn">Login</Link>
             </section>
             <section className="main">
                 <h1>E3Voting <span>Platform</span></h1>

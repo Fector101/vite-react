@@ -8,6 +8,7 @@ import Adminpanelpage from "./pages/AdminpanelPage.tsx";
 import Loginpage from "./pages/LoginPage.tsx";
 import Homepage from "./pages/HomePage.tsx";
 import Pollspage from "./pages/PollsPage.tsx";
+import PollPage from "./pages/PollPage.tsx";
 import Historypage from "./pages/HistoryPage.tsx";
 import Resultspage from "./pages/ResultsPage.tsx";
 
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/admin" element={<Adminpanelpage />} />
                 <Route path="/login" element={<Loginpage />} />
                 <Route path="/polls" element={<Pollspage />} />
+                <Route path="/poll/:id" element={<PollPage />} />
                 <Route path="/results" element={<Resultspage />} />
                 <Route path="/history" element={<Historypage />} />
                 <Route path="*" element={<NotFoundpage />} />
