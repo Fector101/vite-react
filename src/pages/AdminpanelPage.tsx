@@ -72,9 +72,9 @@ export default function Adminpanelpage() {
                 <div className='row head'>
                     <h3>Manage Polls</h3>
                     <div className='row tab-btns'>
-                        <button className='active'><Filter /> Filter</button>
+                        <button className='active'><Filter /> All</button>
                         <button><CheckSquare />Active</button>
-                        <button><XSquare />Close</button>
+                        <button><XSquare />Closed</button>
                     </div>
                 </div>
                 <div className='row sub-text caption'><Calendar />

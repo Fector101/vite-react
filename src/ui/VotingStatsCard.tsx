@@ -16,7 +16,7 @@ export default function VotingStatsCard({ title, des, runners_info_tuple }: { ti
     return (
         <div className="voting-stats-card">
             <div className="row">
-                <div className="badge active">
+                <div className="badge state active">
                     <Dot/>
                     Active</div>
                 <div className="caption">

@@ -7,7 +7,7 @@ function Poll({ state, end_date, title, desc }:{ state:string, end_date:string, 
     return (
         <div className="poll-card">
             <div className="row">
-                <div className="badge active"><Dot /> {state}</div>
+                <div className="badge state active"><Dot /> {state}</div>
                 <div className="caption">
                     <Clock />
                     <p>

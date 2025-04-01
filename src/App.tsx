@@ -15,6 +15,7 @@ import Resultspage from "./pages/ResultsPage.tsx";
 import Header from "./ui/header/Header.tsx";
 import { Menu, X } from "lucide-react";
 import NotFoundpage from "./pages/NotFoundPage.tsx";
+import SignupPage from "./pages/SignupPage.tsx";
 
 function App() {
     const location = useLocation();
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/home" element={<Homepage />} />
                 <Route path="/admin" element={<Adminpanelpage />} />
                 <Route path="/login" element={<Loginpage />} />
+                <Route path="/signup" element={<SignupPage />} />
                 <Route path="/polls" element={<Pollspage />} />
                 <Route path="/poll/:id" element={<PollPage />} />
                 <Route path="/results" element={<Resultspage />} />

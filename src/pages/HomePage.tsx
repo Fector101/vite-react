@@ -1,6 +1,6 @@
 import { TrendingUp, ChartColumn, Vote, ArrowRight, Clock, Users, Plus } from "lucide-react"
 import '../assets/css/homepage.css'
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router";
 
 function Myprogress({value}:{value:string|number}) {
     console.log(value+'%')
@@ -50,6 +50,8 @@ interface VotingStat {
 }
 
 export default function Homepage() {
+    const navigate = useNavigate();
+
     const votingStatsArray:VotingStat[] = [
         {
             title: "Best Student Representative",
@@ -91,9 +93,7 @@ export default function Homepage() {
                     <h1>Dashboard</h1>
                     <p className="caption">Welcome back, Admin User</p>
                 </div>
-                <button className="primary-btn">
-                    <Plus/>
-                    Create New Poll</button>
+                <button className="primary-btn" onClick={()=>navigate('/admin')}>Create New Poll</button>
             </section>
 
             <section className="preview-stats-box">

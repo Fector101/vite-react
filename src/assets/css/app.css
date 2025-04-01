@@ -81,7 +81,7 @@ body>#root {
     border-style: none;
 }
 
-.badge {
+.state.badge {
     font-size: 11px;
     width: 70px;
     height: 25px;
@@ -96,7 +96,7 @@ body>#root {
     padding-right: 8px;
 }
 
-.badge svg {
+.state.badge svg {
     --size: 30px;
     /* width: var(--size); */
     height: var(--size);

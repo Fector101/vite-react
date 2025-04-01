@@ -16,6 +16,9 @@
     width: var(--size);
     height: var(--size);
 }
+.poll-page.page .heading{
+    gap: 15px;
+}
 .poll-page.page .heading h1{
     font-size: 25px;
     margin-bottom: 10px;
@@ -24,11 +27,47 @@
     font-size: 14px;
     /* width: 95%; */
 }
+.poll-page.page .heading .date.caption{
+    font-size: 13px;
+    
+}
+.poll-page.page .heading .clock.caption{
+    --size: 18px;
+    width: var(--size);
+    height: var(--size);
+    margin: 0 5px;
+}
 .poll-page.page main{
     gap: 40px;
     /* background: #000; */
     /* align-items: center; */
     justify-content: center;
+}
+.poll-page.page .voting-card.expired{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    /* height: auto; */
+}
+.poll-page.page .voting-card.expired:first-child{
+    color: rgb(53, 53, 53);
+
+}
+.poll-page.page .voting-card.expired .caption{
+    font-size: 13px;
+}
+.poll-page.page .voting-card.expired svg{
+    margin-bottom: 10px;
+    --size: 40px;
+    width: var(--size);
+    height: var(--size);
+    padding: 7.3px;
+    border-radius: 60%;
+    color: rgb(160, 157, 163);
+    background-color: rgba(187, 180, 195, 0.545);
+
 }
 .poll-page.page .voting-card{
     width: 400px;
