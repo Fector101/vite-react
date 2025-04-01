@@ -1,20 +1,62 @@
 import React,{ useState } from "react";
 import { Lock, Vote, IdCard } from "lucide-react";
 import './../assets/css/loginpage.css'
-import { Link } from "react-router";
+import { Link,useNavigate } from "react-router";
+import { toast } from "sonner";
 
 
 export default function Loginpage() {
-    const [matric_no, setMatricNo] = useState("");
-    const [password, setPassword] = useState("");
+    const navigate = useNavigate()
+    const usefiller = process.env.NODE_ENV === 'development'
+    const [matric_no, setMatricNo] = useState(usefiller ? "FT23CMP00001" : '');
+    const [password, setPassword] = useState(usefiller ? "1" : '');
+    const [signing_in, setSigningIn] = useState(false);
 
-    function handleSubmit(e:React.FormEvent<HTMLFormElement>):void {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
-        console.log( matric_no, password);
+        setSigningIn(true)
+        const formData = {
+            matric_no,
+            password,
+        };
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authn/login`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSigningIn(false)
+                console.log("User loggedIn:", data);
+                toast.success(data.msg || 'Login successful!');
+                navigate('/polls');
+                // await fetchUserData()
+                // await fetchRoomsData()
+            } else {
+                setSigningIn(false)
+                console.error("Login error:", data);
+                toast.warning(data.msg || 'Check your inputs.')
+            }
+        } catch (error) {
+            setSigningIn(false)
+            console.error("Catch Login failed error:", error);
+            toast.error('Something went wrong -' + error);
+        }
     };
 
     return (
         <div className="signin-container">
+            {signing_in &&
+                <div className='modal signing-in-spinner-case'>
+                    <div id="spinner" className="spinner"></div>
+                </div>
+            }
             <div className="signin-box">
                 <div className="icon-circle">
                     <Vote/>
@@ -28,7 +70,6 @@ export default function Loginpage() {
                         <input
                             type="text"
                             placeholder="FT23CMP0040"
-                            // placeholder="youremail@nsuk.edu.ng"
                             value={matric_no}
                             onChange={(e) => setMatricNo(e.target.value)}
                             required

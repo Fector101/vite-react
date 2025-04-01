@@ -1,5 +1,6 @@
 import { Route, Routes, useLocation } from "react-router";
 import { useEffect, useState } from "react";
+import { Toaster } from "sonner";
 import './assets/css/quick-styles.css'
 import './assets/css/app.css'
 
@@ -52,9 +53,10 @@ function App() {
 
     return (
         <>
+            <Toaster position="top-right"/>
             {/* {!["/", "/login", '/signup'].includes(location.pathname) &&  */}
             <Header className={`sidebar ${header_state ? "show" : "hide"}`} />
-             {/* } */}
+            {/* } */}
 
             <Routes>
                 <Route path="/" element={<Landingpage />} />

@@ -1,40 +1,98 @@
-import React,{ useState } from "react";
-import { Lock, Vote, IdCard, Mail } from "lucide-react";
+import React, { useState } from "react";
+import { Lock, Vote, IdCard, User } from "lucide-react";
 import './../assets/css/loginpage.css'
-import { Link } from "react-router";
-
+import { Link,useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export default function SignupPage() {
-    const [matric_no, setMatricNo] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
+    const navigate = useNavigate()
+    const usefiller = process.env.NODE_ENV === 'development'
+    const [matric_no, setMatricNo] = useState(usefiller ? "FT23CMP00001" : '');
+    const [password, setPassword] = useState(usefiller ? "1" : '');
+    const [fullname, setFullName] = useState(usefiller ? "Fabian Joseph" : '');
+    const [signing_in, setSigningIn] = useState(false);
 
-    function handleSubmit(e:React.FormEvent<HTMLFormElement>):void {
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
-        console.log( matric_no, password);
+        setSigningIn(true)
+        const formData = {
+            username: fullname,
+            matric_no,
+            password,
+        };
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authn/signup`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSigningIn(false)
+                console.log("User created:", data);
+                toast.success(data.msg || 'Signup successful!');
+                navigate('/polls');
+                // await fetchUserData()
+                // await fetchRoomsData()
+                // Redirect or update UI
+            } else {
+                setSigningIn(false)
+                console.error("Signup error:", data);
+                toast.warning(data.msg || 'Check your inputs.')
+            }
+        } catch (error) {
+            setSigningIn(false)
+            console.error("Network error:", error);
+            toast.error('Something went wrong - ' + error);
+        }
+
+
     };
 
     return (
         <div className="signin-container signup-page">
+            {signing_in &&
+                <div className='modal signing-in-spinner-case'>
+                    <div id="spinner" className="spinner"></div>
+                </div>
+            }
             <div className="signin-box">
                 <div className="icon-circle">
-                    <Vote/>
+                    <Vote />
                 </div>
                 <h2>Create an Account</h2>
                 <p className="subtitle">Sign up to start voting</p>
                 <form onSubmit={handleSubmit}>
                     <label>Full Name</label>
                     <div className="input-group">
-                        <IdCard className="icon" />
+                        <User className="icon" />
                         <input
                             type="text"
                             placeholder="John Wick"
+                            value={fullname}
+                            onChange={(e) => setFullName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <label>Matric No</label>
+                    <div className="input-group">
+                        <IdCard className="icon" />
+                        <input
+                            type="text"
+                            placeholder="FT23CMP0040"
                             value={matric_no}
                             onChange={(e) => setMatricNo(e.target.value)}
                             required
                         />
                     </div>
-                    <label>Email</label>
+
+                    {/* <label>Email</label>
                     <div className="input-group">
                         <Mail className="icon" />
                         <input
@@ -42,9 +100,8 @@ export default function SignupPage() {
                             placeholder="youremail@nsuk.edu.ng"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required
                         />
-                    </div>
+                    </div> */}
 
                     <label>Password</label>
                     <div className="input-group">
