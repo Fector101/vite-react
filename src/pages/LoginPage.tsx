@@ -1,15 +1,15 @@
-import React,{ useState } from "react";
-import { Lock, Vote, IdCard } from "lucide-react";
+import React, { useState } from "react";
+import { Lock, Vote, IdCard, User } from "lucide-react";
 import './../assets/css/loginpage.css'
-import { Link,useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 
-export default function Loginpage() {
+export default function LoginPage({ user_type }: { user_type: ('admin' | 'student') }) {
     const navigate = useNavigate()
     const usefiller = process.env.NODE_ENV === 'development'
     const [matric_no, setMatricNo] = useState(usefiller ? "FT23CMP00001" : '');
-    const [password, setPassword] = useState(usefiller ? "1" : '');
+    const [password, setPassword] = useState(usefiller ? user_type === 'admin'?'admin': "1" : '');
     const [signing_in, setSigningIn] = useState(false);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -20,7 +20,8 @@ export default function Loginpage() {
             password,
         };
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authn/login`, {
+            const route = user_type === 'admin' ? 'admin-login' : 'login'
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authn/${route}`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -59,17 +60,19 @@ export default function Loginpage() {
             }
             <div className="signin-box">
                 <div className="icon-circle">
-                    <Vote/>
+                    <Vote />
                 </div>
                 <h2>E3Voting</h2>
-                <p className="subtitle">Sign in to your account</p>
+                <p className="subtitle">
+                    {user_type === 'admin' ? "Sign in to manage Polls Data" : "Sign in to your account"}
+                </p>
                 <form onSubmit={handleSubmit}>
-                    <label>Martric No</label>
+                    <label>{user_type === 'admin' ? "Admin ID" : "Martric No"}</label>
                     <div className="input-group">
-                        <IdCard className="icon" />
+                        {user_type === 'admin' ? <User /> : <IdCard className="icon" />}
                         <input
                             type="text"
-                            placeholder="FT23CMP0040"
+                            placeholder={user_type === 'admin' ? 'admin' : 'FT23CMP0040'}
                             value={matric_no}
                             onChange={(e) => setMatricNo(e.target.value)}
                             required
@@ -90,14 +93,27 @@ export default function Loginpage() {
 
                     <button type="submit" className="signin-btn primary-btn">Sign in</button>
                 </form>
-                <div className='redirect flex'>
-                    <p className="caption">Don't have an account?</p>
-                    <Link to='/signup' >Sign Up</Link>
-                </div>
-                <div className='redirect flex justify-self-cen'>
-                    <p className="caption">Admin Demo - </p>
-                    <Link to='/admin-login' >Login</Link>
-                </div>
+                {
+                    user_type !== 'admin' ?
+                        <div className='redirect flex'>
+                            <p className="caption">Don't have an account?</p>
+                            <Link to='/signup' >Sign Up</Link>
+                        </div>
+                        :
+                        <></>
+                }
+                {
+                    user_type !== 'admin' ?
+                        <div className='redirect flex justify-self-cen'>
+                            <p className="caption">Admin Demo -</p>
+                            <Link to='/admin-login' >Login</Link>
+                        </div> 
+                        :
+                        <div className='redirect flex justify-self-cen'>
+                            <p className="caption">Login as Student - </p>
+                            <Link to='/login' >Login</Link>
+                        </div>
+                }
             </div>
         </div>
     );

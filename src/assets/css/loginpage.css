@@ -79,6 +79,7 @@ label {
     outline: none;
     width: 100%;
     font-size: 14px;
+    text-indent: 10px;
 }
 
 .signin-btn {
@@ -96,7 +97,7 @@ label {
 }
 .signin-container .redirect{
     gap: 10px;
-    /* background: #000; */
+    justify-content: center;
     font-size: 14px;
     margin-top: 20px;
 }
