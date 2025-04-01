@@ -12,6 +12,7 @@ import Pollspage from "./pages/PollsPage.tsx";
 import PollPage from "./pages/PollPage.tsx";
 import Historypage from "./pages/HistoryPage.tsx";
 import Resultspage from "./pages/ResultsPage.tsx";
+import AdminLoginPage from "./pages/AdminLoginPage.tsx";
 
 import Header from "./ui/header/Header.tsx";
 import { Menu, X } from "lucide-react";
@@ -68,6 +69,8 @@ function App() {
                 <Route path="/poll/:id" element={<PollPage />} />
                 <Route path="/results" element={<Resultspage />} />
                 <Route path="/history" element={<Historypage />} />
+
+                <Route path="/admin-login" element={<AdminLoginPage />} />
                 <Route path="*" element={<NotFoundpage />} />
             </Routes>
             {btn_state && <button className="primary-btn" id="menu-btn" onClick={toggleHeader}>

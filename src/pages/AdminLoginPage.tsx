@@ -5,11 +5,11 @@ import { Link,useNavigate } from "react-router";
 import { toast } from "sonner";
 
 
-export default function Loginpage() {
+export default function AdminLoginPage() {
     const navigate = useNavigate()
     const usefiller = process.env.NODE_ENV === 'development'
     const [matric_no, setMatricNo] = useState(usefiller ? "FT23CMP00001" : '');
-    const [password, setPassword] = useState(usefiller ? "1" : '');
+    const [password, setPassword] = useState(usefiller ? "admin" : '');
     const [signing_in, setSigningIn] = useState(false);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -20,7 +20,7 @@ export default function Loginpage() {
             password,
         };
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authn/login`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authn/admin-login`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -62,9 +62,9 @@ export default function Loginpage() {
                     <Vote/>
                 </div>
                 <h2>E3Voting</h2>
-                <p className="subtitle">Sign in to your account</p>
+                <p className="subtitle">Sign in to manage Polls Data</p>
                 <form onSubmit={handleSubmit}>
-                    <label>Martric No</label>
+                    <label>ID</label>
                     <div className="input-group">
                         <IdCard className="icon" />
                         <input

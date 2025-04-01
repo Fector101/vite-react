@@ -52,6 +52,10 @@ body section.display-none {
     align-self: center;
 }
 
+.justify-self-cen {
+    justify-self: center;
+}
+
 .x-flex-align {
     justify-content: center;
 }
