@@ -125,6 +125,19 @@ async function enableScroll(): Promise<void> {
     window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
 }
 
+const formatDate = (dateString: string) => {
+    return new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+    }).format(new Date(dateString));
+};
+
+interface PollOption {
+    text: string;
+    votes: number;
+}
+const getPollTotalVotes = (options:PollOption[] ) => options.reduce((sum, data) => sum + data.votes, 0);
 export {
     isTouchDevice,
     returnClass,
@@ -133,4 +146,6 @@ export {
     toTitleCase,
     disableScroll,
     enableScroll,
+    formatDate,
+    getPollTotalVotes,
 };

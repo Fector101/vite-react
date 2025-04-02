@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from '../assets/js/UserContext';
+
 import { Lock, Vote, IdCard, User } from "lucide-react";
 import './../assets/css/loginpage.css'
 import { Link, useNavigate } from "react-router";
@@ -7,17 +9,22 @@ import { toast } from "sonner";
 type Role = 'admin' | 'student' | null;
 
 interface LoginPageProps {
-  setRole: React.Dispatch<React.SetStateAction<Role>>;
-  user_type: 'admin' | 'student';
+    setRole: React.Dispatch<React.SetStateAction<Role>>;
+    user_type: 'admin' | 'student';
 }
 
-export default function LoginPage({user_type, setRole }: LoginPageProps ) {
+export default function LoginPage({ user_type, setRole }: LoginPageProps) {
     const navigate = useNavigate()
+    const context = useContext(UserContext);
+
     const usefiller = process.env.NODE_ENV === 'development'
     const [matric_no, setMatricNo] = useState(usefiller ? "FT23CMP00001" : '');
-    const [password, setPassword] = useState(usefiller ? (user_type === 'admin'?'admin': "1") : '');
+    const [password, setPassword] = useState(usefiller ? (user_type === 'admin' ? 'admin' : "1") : '');
     const [signing_in, setSigningIn] = useState(false);
-    console.log(user_type === 'admin'?'admin': "1")
+    console.log(user_type === 'admin' ? 'admin' : "1")
+    useEffect(() => {
+        if (context) context.fetchPollsData()
+    }, [context])
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
         setSigningIn(true)
@@ -61,7 +68,7 @@ export default function LoginPage({user_type, setRole }: LoginPageProps ) {
     return (
         <div className="signin-container">
             {signing_in &&
-                <div className='modal signing-in-spinner-case'>
+                <div className='modal'>
                     <div id="spinner" className="spinner"></div>
                 </div>
             }
@@ -114,7 +121,7 @@ export default function LoginPage({user_type, setRole }: LoginPageProps ) {
                         <div className='redirect flex justify-self-cen'>
                             <p className="caption">Admin Demo -</p>
                             <Link to='/admin-login' >Login</Link>
-                        </div> 
+                        </div>
                         :
                         <div className='redirect flex justify-self-cen'>
                             <p className="caption">Login as Student - </p>

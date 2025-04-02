@@ -1,62 +1,116 @@
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../assets/js/UserContext';
 import { Link } from "react-router";
 import {Clock, Dot, ArrowRight } from "lucide-react";
 import GoToTop from "../assets/js/GoToTop.ts";
 import '../assets/css/pollspage.css';
+import { formatDate } from '../assets/js/helper.ts';
 
-function Poll({ state, end_date, title, desc }:{ state:string, end_date:string, title:string, desc:string }) {
+function Poll({ status, endDate, title, description }:IElectionPreview) {
     return (
         <div className="poll-card">
             <div className="row">
-                <div className="badge state active"><Dot /> {state}</div>
+                <div className="badge state active"><Dot /> {status}</div>
                 <div className="caption">
                     <Clock />
                     <p>
-                        Ends: {end_date}
+                        Ends: {formatDate(endDate)}
                     </p>
                 </div>
             </div>
             <h3>{title}</h3>
-            <p className="caption description">{desc}</p>
+            <p className="caption description">{description}</p>
             <Link to='/' className="primary-btn">Vote Now <ArrowRight /></Link>
         </div>
     )
 }
+export interface IElectionPreview {
+    title: string;
+    description: string;
+    endDate: string;
+    status: "ongoing" | "completed";
+}
 
 export default function Moviepage() {
-    const polls = [
-        {
-            state: "Active",
-            end_date: "2025-04-10",
-            title: "Best Student Representative",
-            desc: "Vote for the best candidate to represent the student body."
-        },
-        {
-            state: "Active",
-            end_date: "2025-04-15",
-            title: "Sports Captain Election",
-            desc: "Choose the next leader for the school's sports teams."
-        },
-        {
-            state: "Active",
-            end_date: "2025-03-20",
-            title: "New Library Policies",
-            desc: "Vote on proposed changes to the library's opening hours and rules."
-        },
-        {
-            state: "Active",
-            end_date: "2025-03-20",
-            title: "New Library Policies",
-            desc: "Vote on proposed changes to the library's opening hours and rules."
-        },
-        {
-            state: "Active",
-            end_date: "2025-03-20",
-            title: "New Library Policies",
-            desc: "Vote on proposed changes to the library's opening hours and rules."
+    const context = useContext(UserContext);
+    const [PollsData, setPollsData] = useState<IElectionPreview[]>([]);
+    //     {
+            // state: "Active",
+            // end_date: "2025-04-15",
+            // title: "Sports Captain Election",
+            // desc: "Choose the next leader for the school's sports teams."
+    //     },
+
+    // const PollsData = [
+    //     {
+    //         status: "Active",
+    //         endDate: "2025-04-10",
+    //         title: "Best Student Representative",
+    //         description: "Vote for the best candidate to represent the student body."
+    //     },
+    //     {
+    //         status: "Active",
+    //         endDate: "2025-04-15",
+    //         title: "Sports Captain Election",
+    //         description: "Choose the next leader for the school's sports teams."
+    //     },
+    //     {
+    //         status: "Active",
+    //         endDate: "2025-03-20",
+    //         title: "New Library Policies",
+    //         description: "Vote on proposed changes to the library's opening hours and rules."
+    //     },
+    //     {
+    //         status: "Active",
+    //         endDate: "2025-03-20",
+    //         title: "New Library Policies",
+    //         description: "Vote on proposed changes to the library's opening hours and rules."
+    //     },
+    //     {
+    //         status: "Active",
+    //         endDate: "2025-03-20",
+    //         title: "New Library Policies",
+    //         description: "Vote on proposed changes to the library's opening hours and rules."
+    //     }
+    // ];
+
+    useEffect(() => {
+        if (context?.PollsData) {
+            setPollsData(context.PollsData);
+            // setPollsData([
+            //     {
+            //         status: "Active",
+            //         endDate: "2025-04-10",
+            //         title: "Best Student Representative",
+            //         description: "Vote for the best candidate to represent the student body."
+            //     },
+            //     {
+            //         status: "Active",
+            //         endDate: "2025-04-15",
+            //         title: "Sports Captain Election",
+            //         description: "Choose the next leader for the school's sports teams."
+            //     },
+            //     {
+            //         status: "Active",
+            //         endDate: "2025-03-20",
+            //         title: "New Library Policies",
+            //         description: "Vote on proposed changes to the library's opening hours and rules."
+            //     },
+            //     {
+            //         status: "Active",
+            //         endDate: "2025-03-20",
+            //         title: "New Library Policies",
+            //         description: "Vote on proposed changes to the library's opening hours and rules."
+            //     },
+            //     {
+            //         status: "Active",
+            //         endDate: "2025-03-20",
+            //         title: "New Library Policies",
+            //         description: "Vote on proposed changes to the library's opening hours and rules."
+            //     }
+            // ])
         }
-    ];
-
-
+    }, [context?.PollsData]);
 
     return (
         <div className="polls-page page">
@@ -67,7 +121,7 @@ export default function Moviepage() {
                 </div>
             </section>
             <section className="polls-box">
-                {polls.map((poll, index) => <Poll key={index} {...poll} />)}
+                {PollsData.map((poll, index) => <Poll key={index} {...poll} />)}
             </section>
 
             <GoToTop />
