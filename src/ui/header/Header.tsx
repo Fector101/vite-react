@@ -9,12 +9,13 @@ import {
     LogOut,
 } from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router";
+import { Role } from "../../assets/js/helper";
 // import { nanoid } from "nanoid";
 // import { disableScroll, enableScroll } from "../../assets/js/helper.ts";
 
 
 
-export default function Header({ className, role }: { className: string; role: string }) {
+export default function Header({ className, role }: { className: string; role: Role }) {
     // userName='Dev'
     const location = useLocation();
     const navItems = [

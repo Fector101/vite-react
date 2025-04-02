@@ -104,7 +104,6 @@ try {
     // Browser does not support passive events
 }
 
-
 const wheelOpt: AddEventListenerOptions | boolean = supportPassive
     ? { passive: false }
     : false;
@@ -126,6 +125,7 @@ async function enableScroll(): Promise<void> {
 }
 
 const formatDate = (dateString: string) => {
+    if (dateString === "") return "";
     return new Intl.DateTimeFormat("en-GB", {
         day: "numeric",
         month: "short",
@@ -137,8 +137,11 @@ interface PollOption {
     text: string;
     votes: number;
 }
-const getPollTotalVotes = (options:PollOption[] ) => options.reduce((sum, data) => sum + data.votes, 0);
-export type Role = 'admin' | 'student';
+const getPollTotalVotes = (options: PollOption[] | undefined) => {
+    if(options === undefined) return 0
+    return options.reduce((sum, data) => sum + data.votes, 0);
+};
+export type Role = "admin" | "student" | null;
 
 export {
     isTouchDevice,

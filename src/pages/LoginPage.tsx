@@ -23,8 +23,8 @@ export default function LoginPage({ user_type, setRole }: LoginPageProps) {
     const [signing_in, setSigningIn] = useState(false);
     console.log(user_type === 'admin' ? 'admin' : "1")
     useEffect(() => {
-        if (context) context.fetchPollsData()
-    }, [context])
+        setPassword( usefiller? (user_type === 'admin' ? 'admin' : "1") : '')
+    }, [user_type,usefiller])
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
         setSigningIn(true)
@@ -51,6 +51,7 @@ export default function LoginPage({ user_type, setRole }: LoginPageProps) {
                 console.log("User loggedIn:", data);
                 toast.success(data.msg || 'Login successful!');
                 navigate('/home');
+                if (context) await context.fetchPollsData(true)
                 // await fetchUserData()
                 // await fetchRoomsData()
             } else {

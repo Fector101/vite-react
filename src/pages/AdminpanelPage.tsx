@@ -3,7 +3,7 @@ import '../assets/css/adminpanelpage.css';
 import { IElection, UserContext } from '../assets/js/UserContext';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { formatDate } from '../assets/js/helper';
+import { formatDate, Role } from '../assets/js/helper';
 
 
 
@@ -181,7 +181,7 @@ function PollForm({ setFormPollModal }: PollFormProps) {
     )
 }
 
-export default function Adminpanelpage({ role }: { role: string }) {
+export default function Adminpanelpage({ role }: { role: Role }) {
     const context = useContext(UserContext);
     const [PollsData, setPollsData] = useState<IElection[]>([]);
     const [poll_form_modal, setFormPollModal] = useState(false);

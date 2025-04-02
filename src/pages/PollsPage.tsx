@@ -6,7 +6,8 @@ import GoToTop from "../assets/js/GoToTop.ts";
 import '../assets/css/pollspage.css';
 import { formatDate, Role } from '../assets/js/helper.ts';
 
-function Poll({ status, endDate, title, description }: IElectionPreview) {
+function Poll({ status, endDate, title, description,_id }: IElectionPreview) {
+
     return (
         <div className="poll-card">
             <div className="row">
@@ -20,7 +21,7 @@ function Poll({ status, endDate, title, description }: IElectionPreview) {
             </div>
             <h3>{title}</h3>
             <p className="caption description">{description}</p>
-            <Link to='/' className="primary-btn">Vote Now <ArrowRight /></Link>
+            <Link to={`/poll/${_id}`} className="primary-btn">Vote Now <ArrowRight /></Link>
         </div>
     )
 }
@@ -29,6 +30,7 @@ export interface IElectionPreview {
     description: string;
     endDate: string;
     status: "ongoing" | "completed";
+    _id:string
 }
 
 export default function PollPage({ role }: { role: Role }) {

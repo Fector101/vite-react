@@ -18,12 +18,11 @@ import Header from "./ui/header/Header.tsx";
 import { Menu, X } from "lucide-react";
 import NotFoundpage from "./pages/NotFoundPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
-
-type Role = 'admin' | 'student'
+import { Role } from "./assets/js/helper.ts";
 
 function App() {
     const location = useLocation();
-    const [role, setRole] = useState<Role>('student');
+    const [role, setRole] = useState<Role>(null);
     const [header_state, setHeaderState] = useState(window.innerWidth > 500);
     const [btn_state, setBtnState] = useState(window.innerWidth > 500);
 

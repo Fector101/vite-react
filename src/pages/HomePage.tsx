@@ -3,7 +3,7 @@ import { IElection, UserContext } from '../assets/js/UserContext';
 import { TrendingUp, ChartColumn, Vote, ArrowRight, Clock, Users } from "lucide-react"
 import '../assets/css/homepage.css'
 import { Link, useNavigate } from "react-router";
-import { getPollTotalVotes } from '../assets/js/helper';
+import { getPollTotalVotes, Role } from '../assets/js/helper';
 
 function Myprogress({ value }: { value: string | number }) {
     return (
@@ -56,7 +56,7 @@ function VotingStats({ title, description, options }: VotingStat) {
 
 
 
-export default function Homepage({role}:{role:'admin' | 'student'}) {
+export default function Homepage({role}:{role:Role}) {
     const navigate = useNavigate();
     const context = useContext(UserContext);
     const [PollsData, setPollsData] = useState<IElection[]>([]);
