@@ -4,14 +4,20 @@ import './../assets/css/loginpage.css'
 import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
+type Role = 'admin' | 'student' | null;
 
-export default function LoginPage({ user_type }: { user_type: ('admin' | 'student') }) {
+interface LoginPageProps {
+  setRole: React.Dispatch<React.SetStateAction<Role>>;
+  user_type: 'admin' | 'student';
+}
+
+export default function LoginPage({user_type, setRole }: LoginPageProps ) {
     const navigate = useNavigate()
     const usefiller = process.env.NODE_ENV === 'development'
     const [matric_no, setMatricNo] = useState(usefiller ? "FT23CMP00001" : '');
-    const [password, setPassword] = useState(usefiller ? user_type === 'admin'?'admin': "1" : '');
+    const [password, setPassword] = useState(usefiller ? (user_type === 'admin'?'admin': "1") : '');
     const [signing_in, setSigningIn] = useState(false);
-
+    console.log(user_type === 'admin'?'admin': "1")
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
         setSigningIn(true)
@@ -21,7 +27,7 @@ export default function LoginPage({ user_type }: { user_type: ('admin' | 'studen
         };
         try {
             const route = user_type === 'admin' ? 'admin-login' : 'login'
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authn/${route}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/authn/${route}`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -33,10 +39,11 @@ export default function LoginPage({ user_type }: { user_type: ('admin' | 'studen
             const data = await response.json();
 
             if (response.ok) {
+                setRole(user_type)
                 setSigningIn(false)
                 console.log("User loggedIn:", data);
                 toast.success(data.msg || 'Login successful!');
-                navigate('/polls');
+                navigate('/home');
                 // await fetchUserData()
                 // await fetchRoomsData()
             } else {

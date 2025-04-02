@@ -7,6 +7,10 @@
     padding-bottom: 10px;
     background:white;
 }
+.adminpage.page{position: relative;}
+.adminpage .modal.poll-form{
+    position: absolute;
+}
 
 .polls-section .head {
     flex-wrap: wrap;
@@ -177,6 +181,80 @@ table tr th:nth-child(4) {
     border: none;
 }
 
+
+.poll-form{
+    overflow-y: auto;
+    background: rgb(243, 243, 243);
+    padding: 40px;
+}
+.poll-form .caption{
+    margin-top: 1px;
+}
+
+.poll-form .header{
+    gap: 10px;
+}
+.poll-form .header button{
+    height: 35px;
+    padding: 18px 15px;
+    gap: 10px;
+}
+.poll-form label{
+    margin-top: 10px;
+}
+.poll-form input{
+    border: 1px solid #a4a4a4;
+    height: 35px;
+    border-radius: 10px;
+    text-indent: 7px;
+    padding-right: 10px;
+}
+.poll-form .header button svg{
+    --size: 20px;
+    width: var(--size);
+    height: var(--size);
+}
+.poll-form .option input{
+    flex: 1;
+}
+.poll-form .option button:hover{
+    background-color: var(--primary-btn-bg);
+}
+.poll-form .option button{
+    border: 1px solid #a4a4a4;
+    border-radius: 10px;
+    background-color: white;
+    margin-left: 10px;
+    --size: 32px;
+    width: var(--size);
+    height: var(--size);
+}
+.poll-form .option button svg{
+    --size: 18px;
+    width: var(--size);
+    height: var(--size);
+}
+.poll-form .add-option-btn{
+    font-size: 14px;
+    width: max-content;
+    background-color: white;
+    height: 35px;
+}
+.poll-form .add-option-btn svg{
+    --size: 20px;
+    margin-right: 5px;
+    width: var(--size);
+    height: var(--size);
+}
+.poll-form hr{
+    border: none;
+    border-top: 1px solid rgba(128, 128, 128, 0.318);
+    margin-block: 10px 5px;
+}
+.poll-form .create-poll-btn{
+    padding: 10px 15px;
+    margin-left: 10px;
+}
 @media screen and (max-width:460px) {
     .adminpage .heading {
         flex-wrap: wrap;

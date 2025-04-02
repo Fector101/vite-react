@@ -1,10 +1,6 @@
-// import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router";
 import "./header.css"
 import {
-    // Search,
     ChevronRight,
-    // XCircle,
     Vote,
     LayoutDashboard,
     ChartNoAxesColumn,
@@ -18,7 +14,7 @@ import { Link, Outlet, useLocation } from "react-router";
 
 
 
-export default function Header({ className }: { className: string }) {
+export default function Header({ className, role }: { className: string; role: string }) {
     // userName='Dev'
     const location = useLocation();
     const navItems = [
@@ -41,13 +37,15 @@ export default function Header({ className }: { className: string }) {
             icon: <History />,
             title: "Past Polls",
             link: "/history"
-        },
-        {
+        }
+    ]
+    if (role === 'admin') {
+        navItems.push({
             icon: <User />,
             title: "Admin Panel",
             link: "/admin"
-        }
-    ]
+        })
+    }
     return (
         <>
             <header className={className}>
@@ -83,42 +81,4 @@ export default function Header({ className }: { className: string }) {
             />
         </>
     );
-}
-
-{
-    /* <button className="menu-btn">
-<Menu />
-</button>
-<Link to={userName ? '/' : 'landing-page'} className="title">
-Grimoire
-</Link>
-
-<MynavBar for_="title-bar-nav" links={[{ link: '/', name: 'Home' }, { link: '/lists', name: 'Lists' }, { link: '/Movies', name: 'Movies' }, { link: '/shows', name: 'Tv shows' }]} />
-<SearchInput placeholder="Search movies and TV shows" />
-<div className="side-content right">
-<Link className="btn lists-header-btn-link" to='lists' state="Hi">
-    <Bookmark className="svg-white-fill" />
-</Link>
-
-{
-    userName === undefined ?
-        <>
-            <button className="outline-white sign-up" onClick={() => setModalEle('signup')}>Sign Up</button>
-            <button className="outline-white sign-in" onClick={() => setModalEle('login')}>Sign in</button>
-        </>
-        :
-        <>
-            <button className="subscribe-btn">Subscribe</button>
-            <button className="noti-btn"><BellIcon /></button>
-            <div className="user-menu-box">
-                <button>
-                    <User2 />
-                </button>
-                <button>
-                    <ChevronDown />
-                </button>
-            </div>
-        </>
-}
-</div> */
 }

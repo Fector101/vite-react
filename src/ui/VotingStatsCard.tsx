@@ -1,7 +1,7 @@
 import { ArrowRight, Clock, Dot } from "lucide-react"
 
 function Myprogress({ value }: { value: string | number }) {
-    console.log(value + '%')
+    // console.log(value + '%')
     return (
         <div className="progress-range" style={{ 'width': '100%', backgroundColor: '#cac8c8', height: '10px', borderRadius: '5px', marginBottom: '4px', overflow: 'hidden' }}>
             <div style={{ width: value + '%', backgroundColor: '#4ec9e6', height: '100%' }} className="progress-value"></div>
@@ -29,8 +29,7 @@ export default function VotingStatsCard({ title, des, runners_info_tuple }: { ti
             <div className="runners-box">
                 {runners_info_tuple?.map(([name, votes], i) => {
                     const percentage = total_votes > 0 ? ((votes / total_votes) * 100).toFixed(2) : 0;
-                    console.log(total_votes, '---')
-
+                    // console.log(total_votes, '---')
                     return (
                         <div key={i}>
                             <div className="row">

@@ -3,7 +3,7 @@ import '../assets/css/homepage.css'
 import { Link,useNavigate } from "react-router";
 
 function Myprogress({value}:{value:string|number}) {
-    console.log(value+'%')
+    // console.log(value+'%')
     return (
         <div className="progress-range" style={{'width':'100%',backgroundColor:'#cac8c8',height:'10px',borderRadius:'5px',marginBottom:'4px',overflow:'hidden'}}>
             <div style={{width:value+'%',backgroundColor:'#4ec9e6',height:'100%'}} className="progress-value"></div>
@@ -14,7 +14,7 @@ function VotingStats({ title, des, runners_info_tuple }: { title: string, des: s
     // runners_info_tuple =[['name',140]]   
     // runners_info_tuple =[['name','votes'],...]   
     const total_votes = runners_info_tuple.reduce((sum, [, votes]) => sum + votes, 0);
-    console.log(total_votes,'---')
+    // console.log(total_votes,'---')
     return (
         <div className="voting-stats-card">
             <h4>{title}</h4>
@@ -22,7 +22,7 @@ function VotingStats({ title, des, runners_info_tuple }: { title: string, des: s
             <div className="runners-box">
                 {runners_info_tuple?.map(([name, votes], i) => {
                     const percentage = total_votes > 0 ? ((votes / total_votes) * 100).toFixed(2) : 0;
-                    console.log(total_votes,'---')
+                    // console.log(total_votes,'---')
 
                     return (
                         <div key={i}>

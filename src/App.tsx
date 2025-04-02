@@ -1,6 +1,7 @@
 import { Route, Routes, useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import { Toaster } from "sonner";
+
 import './assets/css/quick-styles.css'
 import './assets/css/app.css'
 
@@ -18,19 +19,11 @@ import { Menu, X } from "lucide-react";
 import NotFoundpage from "./pages/NotFoundPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
 
+type Role = 'admin' | 'student'
+
 function App() {
     const location = useLocation();
-
-    useEffect(
-        function () {
-
-            setBtnState(!(["/", "/login"].includes(location.pathname)))
-
-            setHeaderState(false);
-        },
-        [location]
-    );
-
+    const [role, setRole] = useState<Role>('student');
     const [header_state, setHeaderState] = useState(window.innerWidth > 500);
     const [btn_state, setBtnState] = useState(window.innerWidth > 500);
 
@@ -38,7 +31,34 @@ function App() {
         setHeaderState(prev => !prev);
     }
 
+    useEffect(function () {
+        setBtnState(!(["/", "/login"].includes(location.pathname)))
+        setHeaderState(false);
+    }, [location]);
+
     useEffect(() => {
+        const fetchRole = async () => {
+            // doing this incase user refreshes page, so no depending on sending role with login|signup
+            try {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/authn/me`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    setRole(data.role);
+                    return
+                }
+                console.log('Failed to fetch Role');
+            } catch (error) {
+                setRole('student');
+                console.log('Fetch Failed Error: ', error);
+            }
+        };
+
+        fetchRole();
+
         function handleResize() {
             if (window.innerWidth > 800) {
                 setHeaderState(true);
@@ -46,30 +66,29 @@ function App() {
                 setHeaderState(false);
             }
         }
-
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     return (
         <>
-            <Toaster position="top-right"/>
+            <Toaster position="top-right" />
             {/* {!["/", "/login", '/signup'].includes(location.pathname) &&  */}
-            <Header className={`sidebar ${header_state ? "show" : "hide"}`} />
+            <Header role={role} className={`sidebar ${header_state ? "show" : "hide"}`} />
             {/* } */}
 
             <Routes>
                 <Route path="/" element={<Landingpage />} />
-                <Route path="/home" element={<Homepage />} />
-                <Route path="/admin" element={<Adminpanelpage />} />
-                <Route path="/login" element={<LoginPage user_type="student" />} />
+                <Route path="/home" element={<Homepage role={role} />} />
+                <Route path="/admin" element={<Adminpanelpage role={role} />} />
+                <Route path="/login" element={<LoginPage user_type="student" setRole={setRole} />} />
                 <Route path="/signup" element={<SignupPage />} />
-                <Route path="/polls" element={<Pollspage />} />
-                <Route path="/poll/:id" element={<PollPage />} />
-                <Route path="/results" element={<Resultspage />} />
-                <Route path="/history" element={<Historypage />} />
+                <Route path="/polls" element={<Pollspage role={role} />} />
+                <Route path="/poll/:id" element={<PollPage role={role} />} />
+                <Route path="/results" element={<Resultspage role={role} />} />
+                <Route path="/history" element={<Historypage role={role} />} />
 
-                <Route path="/admin-login" element={<LoginPage user_type='admin' />} />
+                <Route path="/admin-login" element={<LoginPage user_type='admin' setRole={setRole} />} />
                 <Route path="*" element={<NotFoundpage />} />
             </Routes>
             {btn_state && <button className="primary-btn" id="menu-btn" onClick={toggleHeader}>

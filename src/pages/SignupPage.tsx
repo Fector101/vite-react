@@ -22,7 +22,7 @@ export default function SignupPage() {
             password,
         };
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/authn/signup`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/authn/signup`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

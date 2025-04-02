@@ -63,6 +63,9 @@ body section.display-none {
 .algin-left {
     align-items: flex-end;
 }
+.align-left {
+    align-items: flex-end;
+}
 
 .btn-fill-white {
     background-color: rgb(232, 232, 232);
@@ -108,7 +111,10 @@ body section.display-none {
 .algin-items-cen {
     align-items: center;
 }
-
+.justify-content-cen{justify-content: center;}
+.align-self-end{
+    align-self: flex-end;
+}
 .width100per {
     width: 100%;
 }
