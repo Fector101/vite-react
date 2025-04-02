@@ -5,12 +5,12 @@ import { Lock, Vote, IdCard, User } from "lucide-react";
 import './../assets/css/loginpage.css'
 import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
+import { Role } from "../assets/js/helper";
 
-type Role = 'admin' | 'student' | null;
 
 interface LoginPageProps {
     setRole: React.Dispatch<React.SetStateAction<Role>>;
-    user_type: 'admin' | 'student';
+    user_type: Role;
 }
 
 export default function LoginPage({ user_type, setRole }: LoginPageProps) {

@@ -1,4 +1,5 @@
 import '../assets/css/historypage.css'
+import { Role } from '../assets/js/helper';
 import VotingStatsCard from '../ui/VotingStatsCard';
 
 type RunnerInfo = [string, number];
@@ -8,8 +9,10 @@ interface VotingStat {
     des: string;
     runners_info_tuple: RunnerInfo[];
 }
-export default function Historypage() {
-    const votingStatsArray:VotingStat[] = [
+export default function Historypage({ role }: { role: Role }) {
+    console.log(role)
+
+    const votingStatsArray: VotingStat[] = [
         {
             title: "Best Student Representative",
             des: "Vote for the best candidate to represent the student body.",
@@ -55,7 +58,7 @@ export default function Historypage() {
             <section className="recent-votings">
                 <div className="main-votings-box">
                     {votingStatsArray.map((votingData, index) => (
-                        <VotingStatsCard key={index} title={votingData.title}  des={votingData.des} runners_info_tuple={votingData.runners_info_tuple}/>
+                        <VotingStatsCard key={index} title={votingData.title} des={votingData.des} runners_info_tuple={votingData.runners_info_tuple} />
                     ))}
                 </div>
             </section>

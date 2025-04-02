@@ -56,7 +56,7 @@ function VotingStats({ title, description, options }: VotingStat) {
 
 
 
-export default function Homepage() {
+export default function Homepage({role}:{role:'admin' | 'student'}) {
     const navigate = useNavigate();
     const context = useContext(UserContext);
     const [PollsData, setPollsData] = useState<IElection[]>([]);
@@ -64,6 +64,7 @@ export default function Homepage() {
     const [active_polls_total, setActivePollsTotal] = useState(0)
     const [famousPoll, setFamousPoll] = useState<IElection|null>(null)
     useEffect(() => {
+        console.log(role)
         if (context?.PollsData) {
             const data = context.PollsData
             setPollsData(data);

@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../assets/js/UserContext';
 import { Link } from "react-router";
-import {Clock, Dot, ArrowRight } from "lucide-react";
+import { Clock, Dot, ArrowRight } from "lucide-react";
 import GoToTop from "../assets/js/GoToTop.ts";
 import '../assets/css/pollspage.css';
-import { formatDate } from '../assets/js/helper.ts';
+import { formatDate, Role } from '../assets/js/helper.ts';
 
-function Poll({ status, endDate, title, description }:IElectionPreview) {
+function Poll({ status, endDate, title, description }: IElectionPreview) {
     return (
         <div className="poll-card">
             <div className="row">
@@ -31,14 +31,14 @@ export interface IElectionPreview {
     status: "ongoing" | "completed";
 }
 
-export default function Moviepage() {
+export default function PollPage({ role }: { role: Role }) {
     const context = useContext(UserContext);
     const [PollsData, setPollsData] = useState<IElectionPreview[]>([]);
     //     {
-            // state: "Active",
-            // end_date: "2025-04-15",
-            // title: "Sports Captain Election",
-            // desc: "Choose the next leader for the school's sports teams."
+    // state: "Active",
+    // end_date: "2025-04-15",
+    // title: "Sports Captain Election",
+    // desc: "Choose the next leader for the school's sports teams."
     //     },
 
     // const PollsData = [
@@ -75,6 +75,8 @@ export default function Moviepage() {
     // ];
 
     useEffect(() => {
+        console.log(role)
+
         if (context?.PollsData) {
             setPollsData(context.PollsData);
             // setPollsData([

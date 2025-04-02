@@ -138,6 +138,8 @@ interface PollOption {
     votes: number;
 }
 const getPollTotalVotes = (options:PollOption[] ) => options.reduce((sum, data) => sum + data.votes, 0);
+export type Role = 'admin' | 'student';
+
 export {
     isTouchDevice,
     returnClass,

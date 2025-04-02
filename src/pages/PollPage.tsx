@@ -1,11 +1,13 @@
 import { AlertCircle, ArrowLeft, Clock, Dot, Vote } from "lucide-react";
-import { 
+import {
     // useParams,
-    useNavigate } from "react-router";
+    useNavigate
+} from "react-router";
 import '../assets/css/quick-styles.css'
 import '../assets/css/pollpage.css'
 import MyBarChart from "../ui/MyBarChart";
 import { useEffect, useState } from "react";
+import { Role } from "../assets/js/helper";
 
 function Choice({ text, setSelected, selected }: { text: string; setSelected: (value: string) => void; selected: string | null }) {
     return (
@@ -22,7 +24,7 @@ function Choice({ text, setSelected, selected }: { text: string; setSelected: (v
     );
 }
 
-const PollPage = () => {
+function PollPage({ role }: { role: Role }) {
     // const { id } = useParams();
     const navigate = useNavigate();
     const [selected, setSelected] = useState<string | null>(null);
@@ -30,6 +32,7 @@ const PollPage = () => {
     const [ongoing, setOngoing] = useState(1);
 
     useEffect(() => {
+        console.log(role)
         setOngoing(0)
         const handleResize = () => {
             const card_width = document.querySelector(".voting-card")?.getBoundingClientRect().width || 100;
@@ -57,7 +60,7 @@ const PollPage = () => {
                 </div>
                 <div className="flex algin-items-cen">
                     <div className="badge state active"> <Dot /> Active </div>
-                    <Clock className="caption clock"/>
+                    <Clock className="caption clock" />
                     <p className="caption date"> Ends: 16 Mar 2025, 21:08</p>
                 </div>
             </section>
