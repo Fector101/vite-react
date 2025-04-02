@@ -6,7 +6,7 @@ import GoToTop from "../assets/js/GoToTop.ts";
 import '../assets/css/pollspage.css';
 import { formatDate, Role } from '../assets/js/helper.ts';
 
-function Poll({ status, endDate, title, description,_id }: IElectionPreview) {
+function Poll({ status, endDate, title, description, _id }: IElectionPreview) {
 
     return (
         <div className="poll-card">
@@ -30,7 +30,7 @@ export interface IElectionPreview {
     description: string;
     endDate: string;
     status: "ongoing" | "completed";
-    _id:string
+    _id: string
 }
 
 export default function PollPage({ role }: { role: Role }) {

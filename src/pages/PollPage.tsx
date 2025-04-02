@@ -6,18 +6,21 @@ import MyBarChart from "../ui/MyBarChart";
 import { useContext, useEffect, useState } from "react";
 import { formatDate, getPollTotalVotes, Role } from "../assets/js/helper";
 import { IElection, UserContext } from "../assets/js/UserContext";
+import { io } from "socket.io-client";
 
-function Choice({ text, setSelected, selected }: { text: string; setSelected: (value: string) => void; selected: string | null }) {
+const socket = io(import.meta.env.VITE_API_URL);
+
+function Choice({ text, setSelected, _id, selected }: { _id: string; text: string; setSelected: (value: string) => void; selected: string | null }) {
     return (
         <div className="flex choice-input-box">
             <input
                 className="circular-checkbox"
                 type="checkbox"
-                id={text}
-                checked={selected === text}
-                onChange={() => setSelected(text)}
+                id={_id}
+                checked={selected === _id}
+                onChange={() => setSelected(_id)}
             />
-            <label htmlFor={text}>{text}</label>
+            <label htmlFor={_id}>{text}</label>
         </div>
     );
 }
@@ -31,6 +34,41 @@ function PollPage({ role }: { role: Role }) {
     const [selected, setSelected] = useState<string | null>(null);
     const [card_width, setCardWidth] = useState(0);
     const [ongoing, setOngoing] = useState(1);
+
+
+
+    useEffect(() => {
+        socket.emit("joinPoll", requested_poll_id);
+        socket.on("pollUpdate", (data) => {
+            console.log(data)
+            if (data._id === requested_poll_id) {
+                setPollData(data)
+
+                // setPoll((prev) => ({ ...prev, options: data.options }));
+            }
+        });
+
+        return () => { console.log('turned off'); socket.off("pollUpdate"); }
+    }, [requested_poll_id]);
+
+    async function vote() {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/vote`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ pollId: requested_poll_id, optionId: selected }),
+            });
+
+            const data = await response.json();
+            // if (!response.ok) throw new Error(data.msg);
+
+            console.log("Vote successful:", data.msg);
+        } catch (error) {
+            console.error("Voting error:", error);
+        }
+    }
 
     useEffect(() => {
         setOngoing(0)
@@ -82,9 +120,9 @@ function PollPage({ role }: { role: Role }) {
                     <div className="voting-card">
                         <h3>Cast Your Vote</h3>
                         {
-                            PollData?.options.map((each,i) => <Choice key={i} text={each.text} selected={selected} setSelected={setSelected} />)
+                            PollData?.options.map((each, i) => <Choice key={i} text={each.text} _id={each._id} selected={selected} setSelected={setSelected} />)
                         }
-                        <button className={"primary-btn flex x-flex-align" + (selected ? '' : ' disabled')}> <Vote />  Submit Vote</button>
+                        <button onClick={vote} className={"primary-btn flex x-flex-align" + (selected ? '' : ' disabled')}> <Vote />  Submit Vote</button>
                     </div>
                 }
                 <div className="voting-card">

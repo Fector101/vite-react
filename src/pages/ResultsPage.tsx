@@ -9,6 +9,10 @@ import { Role } from '../assets/js/helper';
 import { Link } from 'react-router';
 // ResultCard component
 
+// import { io } from "socket.io-client";
+
+// const socket = io(import.meta.env.VITE_API_URL);
+
 interface PollOption {
     text: string;
     votes: number;
@@ -74,6 +78,19 @@ export default function Resultspage({role}:{role:Role}){
     // const [poll_form_modal, setFormPollModal] = useState(false);
 
 
+
+    // useEffect(() => {
+    //     socket.emit("joinPoll", pollId);
+    //     socket.on("pollUpdate", (data) => {
+    //         console.log(data)
+    //         // if (data.pollId === pollId) {
+
+    //             // setPoll((prev) => ({ ...prev, options: data.options }));
+    //         // }
+    //     });
+
+    //     return () => {console.log('turned off');socket.off("pollUpdate");}
+    // }, []);
     useEffect(() => {
         console.log(role)
         if (context?.PollsData) {

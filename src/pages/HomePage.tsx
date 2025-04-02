@@ -65,7 +65,6 @@ export default function Homepage({role}:{role:Role}) {
     const [active_polls_total, setActivePollsTotal] = useState(0)
     const [famousPoll, setFamousPoll] = useState<IElection|null>(null)
     useEffect(() => {
-        console.log(role)
         if (context?.PollsData) {
             const data = context.PollsData
             setPollsData(data);
@@ -76,6 +75,10 @@ export default function Homepage({role}:{role:Role}) {
         setAllPollsTotalVotes(context?.PollsMathData.totalVotes || 0 )
         setFamousPoll(context?.PollsMathData.pollWithMostVotes || null)
     }, [context?.PollsMathData]);
+    
+    // useEffect(() => {
+    //     context?.fetchUserData()
+    // }, []);
     // const votingStatsArray: VotingStat[] = [
     //     {
     //         title: "Best Student Representative",
@@ -115,9 +118,9 @@ export default function Homepage({role}:{role:Role}) {
             <section className="heading">
                 <div>
                     <h1>Dashboard</h1>
-                    <p className="caption">Welcome back, Admin User</p>
+                    <p className="caption">Welcome back, {context?.userData.username}</p>
                 </div>
-                <button className="primary-btn" onClick={() => navigate('/admin')}>Create New Poll</button>
+                {role == 'admin' ?<button className="primary-btn" onClick={() => navigate('/admin')}>Create New Poll</button>: <></>}
             </section>
 
             <section className="preview-stats-box">
@@ -130,8 +133,8 @@ export default function Homepage({role}:{role:Role}) {
                         <ChartColumn className="badge blue" />
                     </div>
                     <div>
-                        <Myprogress value='30' />
-                        <p>2 active</p>
+                        <Myprogress value={(active_polls_total/PollsData.length)*100} />
+                        <p>{active_polls_total} active</p>
                     </div>
                 </div>
                 <div className="card">

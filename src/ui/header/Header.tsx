@@ -1,4 +1,3 @@
-import "./header.css"
 import {
     ChevronRight,
     Vote,
@@ -8,16 +7,18 @@ import {
     User,
     LogOut,
 } from "lucide-react";
-import { Link, Outlet, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { useContext } from 'react';
+import { UserContext } from '../../assets/js/UserContext';
 import { Role } from "../../assets/js/helper";
-// import { nanoid } from "nanoid";
-// import { disableScroll, enableScroll } from "../../assets/js/helper.ts";
-
+import "./header.css"
 
 
 export default function Header({ className, role }: { className: string; role: Role }) {
-    // userName='Dev'
     const location = useLocation();
+    const context = useContext(UserContext);
+    const navigate = useNavigate();
+
     const navItems = [
         {
             icon: <LayoutDashboard />,
@@ -47,6 +48,26 @@ export default function Header({ className, role }: { className: string; role: R
             link: "/admin"
         })
     }
+    function getInitials(name: string) {
+        if (!name) return "";
+        const parts = name.trim().split(/\s+/);
+        const firstInitial = parts[0]?.[0] || "";
+        const lastInitial = parts[1]?.[0] || "";
+        return (firstInitial + lastInitial).toUpperCase();
+    }
+    async function signOut() {
+        try {
+            await fetch(`${import.meta.env.VITE_API_URL}/authn/logout`, {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+            });
+            context?.setUserData({role:null,username:''})
+            navigate('/login')
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    }
     return (
         <>
             <header className={className}>
@@ -64,22 +85,15 @@ export default function Header({ className, role }: { className: string; role: R
                 </section>
                 <section className='last-box'>
                     <div className='row'>
-                        <p>A</p>
+                        <p>{getInitials(context?.userData.username || '')}</p>
                         <div>
-                            <p>Admin User</p>
-                            <p>Admin</p>
+                            <p>{context?.userData.username}</p>
+                            <p>{context?.userData.role}</p>
                         </div>
                     </div>
-                    <button><LogOut /> Sign Out</button>
+                    {context?.userData.role&&<button onClick={signOut}><LogOut /> Sign Out</button>}
                 </section>
             </header>
-
-            <Outlet
-                context={{
-                    foxxy: () => "Wisdow Seekers",
-                    user_name: "Fabian - UserName From HeaderSticky",
-                }}
-            />
         </>
     );
 }

@@ -1,6 +1,7 @@
 import { Route, Routes, useLocation } from "react-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Toaster } from "sonner";
+import { UserContext } from './assets/js/UserContext';
 
 import './assets/css/quick-styles.css'
 import './assets/css/app.css'
@@ -22,6 +23,8 @@ import { Role } from "./assets/js/helper.ts";
 
 function App() {
     const location = useLocation();
+    const context = useContext(UserContext);
+
     const [role, setRole] = useState<Role>(null);
     const [header_state, setHeaderState] = useState(window.innerWidth > 500);
     const [btn_state, setBtnState] = useState(window.innerWidth > 500);
@@ -29,6 +32,12 @@ function App() {
     function toggleHeader() {
         setHeaderState(prev => !prev);
     }
+    useEffect(() => {
+        if (context?.userData) {
+            const data = context.userData
+            setRole(data.role);
+        }
+    }, [context?.userData]);
 
     useEffect(function () {
         setBtnState(!(["/", "/login"].includes(location.pathname)))
@@ -80,14 +89,14 @@ function App() {
                 <Route path="/" element={<Landingpage />} />
                 <Route path="/home" element={<Homepage role={role} />} />
                 <Route path="/admin" element={<Adminpanelpage role={role} />} />
-                <Route path="/login" element={<LoginPage user_type="student" setRole={setRole} />} />
+                <Route path="/login" element={<LoginPage role="student"/>} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/polls" element={<Pollspage role={role} />} />
                 <Route path="/poll/:id" element={<PollPage role={role} />} />
                 <Route path="/results" element={<Resultspage role={role} />} />
                 <Route path="/history" element={<Historypage role={role} />} />
 
-                <Route path="/admin-login" element={<LoginPage user_type='admin' setRole={setRole} />} />
+                <Route path="/admin-login" element={<LoginPage role='admin' />} />
                 <Route path="*" element={<NotFoundpage />} />
             </Routes>
             {btn_state && <button className="primary-btn" id="menu-btn" onClick={toggleHeader}>

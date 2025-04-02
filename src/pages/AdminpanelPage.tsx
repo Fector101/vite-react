@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 import { formatDate, Role } from '../assets/js/helper';
 
 
-
 function Option({ placeholder, removeMe, myid, value, onChange }: {
     placeholder: string;
     removeMe: (id: number) => void;

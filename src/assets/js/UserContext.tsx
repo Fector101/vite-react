@@ -1,11 +1,12 @@
 import { createContext, useState, useEffect, ReactNode, Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
+import { Role } from "./helper";
 
-// Define types for your data structures
-// interface UserData {
-// Define specific fields if available; otherwise, use an index signature
-//   [key: string]: any;
-// }
+
+interface IUserData {
+    role: Role;
+    username: string
+}
 interface PollOption {
     text: string;
     votes: number;
@@ -21,27 +22,24 @@ export interface IElection {
     options: PollOption[];
     status: "ongoing" | "completed"; // Use union type if there are only specific statuses
 }
-
 // voters: string[];  // Array of voter IDs (if applicable)
 
-// interface StudentData {
-//     [key: string]: any;
-// }
+
 interface IPollsMathData {
     totalVotes: number;
     activePollsCount: number;
     pollWithMostVotes: IElection | null;
 }
+
 // Define the shape of the context
 interface UserContextType {
     PollsData: IElection[];
-    // userData: UserData;
-    // setStudents: Dispatch<SetStateAction<StudentData[]>>;
-    // StudentsData: StudentData[];
+    userData: IUserData;
+    setUserData: Dispatch<SetStateAction<IUserData>>;
     PollsMathData: IPollsMathData;
     setPolls: Dispatch<SetStateAction<IElection[]>>;
     fetchPollsData: (silent?: boolean) => Promise<void>;
-    // fetchUserData: (silent?: boolean) => Promise<void>;
+    fetchUserData: (silent?: boolean) => Promise<void>;
 }
 
 // Define the props for the provider
@@ -53,48 +51,44 @@ interface UserProviderProps {
 export const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-    // const [userData, setUser] = useState<UserData>({});
     const [PollsData, setPolls] = useState<IElection[]>([]);
-    // const [StudentsData, setStudents] = useState<StudentData[]>([]);
     const [PollsMathData, setPollsMathData] = useState<IPollsMathData>({ pollWithMostVotes: null, totalVotes: 0, activePollsCount: 0 });
+    const [userData, setUserData] = useState<IUserData>({ role: null, username: '' });
 
-    // Function to fetch user data
-    // const fetchUserData = async (silent = false): Promise<void> => {
-    //     try {
-    //         const response = await fetch(`${import.meta.env.VITE_API_URL}/profile`, {
-    //             method: "GET",
-    //             credentials: "include",
-    //             headers: { "Content-Type": "application/json" },
-    //         });
-    //         const data = await response.json();
-    //         if (response.ok) {
-    //             setUser(data.data);
-    //             console.log("Successfully Fetched profile data...");
-    //             if (!silent) toast.success("Successfully Fetched User Data");
-    //         } else {
-    //             if (!silent) toast.error(data.msg);
-    //             console.log("Bad Request user profile data...");
-    //         }
-    //     } catch (error) {
-    //         console.error("Network error:", error);
-    //     }
-    // };
-
-    // Function to fetch polls data
-    const fetchPollsData = async (silent = false): Promise<void> => {
+    async function fetchUserData(silent = false): Promise<void> {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/all-elections`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/authn/me`, {
                 method: "GET",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
-            const data = await response.json();
+            const data: IUserData & { msg: string } = await response.json();
+            if (response.ok) {
+                setUserData({ username: data.username, role: data.role })
+                console.log("Successfully User  data...");
+                if (!silent) toast.success(data.msg);
+            } else {
+                if (!silent) toast.error(data.msg);
+                console.log("Bad Request User data...");
+            }
+        } catch (error) {
+            console.error("fetchUserData error:", error);
+        }
+    };
+
+    const fetchPollsData = async (silent = false): Promise<void> => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/all-elections`, {
+                method: "GET",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data: { elections: IElection[]; logic: IPollsMathData; msg: string } = await response.json();
             if (response.ok) {
                 setPolls(data.elections);
-                // console.log(data.logic)
                 setPollsMathData(data.logic)
                 console.log("Successfully Fetched Polls data...");
-                if (!silent) toast.success("Successfully Fetched Polls Data");
+                if (!silent) toast.success(data.msg);
             } else {
                 if (!silent) toast.error(data.msg);
                 console.log("Bad Request Polls data...");
@@ -106,20 +100,20 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     // Fetch user data and polls data on mount
     useEffect(() => {
-        // fetchUserData(true);
-        fetchPollsData(false);
+        fetchUserData(true);
+        fetchPollsData(true);
     }, []);
 
     return (
         <UserContext.Provider
             value={{
-                // userData,
-                // fetchUserData
-                // setStudents,
-                // StudentsData, 
-                PollsMathData,
+                userData,
                 PollsData,
-                setPolls, fetchPollsData,
+                PollsMathData,
+                setUserData,
+                fetchUserData,
+                setPolls,
+                fetchPollsData
             }}
         >
             {children}

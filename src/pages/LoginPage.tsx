@@ -9,22 +9,21 @@ import { Role } from "../assets/js/helper";
 
 
 interface LoginPageProps {
-    setRole: React.Dispatch<React.SetStateAction<Role>>;
-    user_type: Role;
+    // setRole: React.Dispatch<React.SetStateAction<Role>>;
+    role: Role;
 }
 
-export default function LoginPage({ user_type, setRole }: LoginPageProps) {
+export default function LoginPage({ role }: LoginPageProps) {
     const navigate = useNavigate()
     const context = useContext(UserContext);
 
     const usefiller = process.env.NODE_ENV === 'development'
     const [matric_no, setMatricNo] = useState(usefiller ? "FT23CMP00001" : '');
-    const [password, setPassword] = useState(usefiller ? (user_type === 'admin' ? 'admin' : "1") : '');
+    const [password, setPassword] = useState(usefiller ? (role === 'admin' ? 'fabian' : "1") : '');
     const [signing_in, setSigningIn] = useState(false);
-    console.log(user_type === 'admin' ? 'admin' : "1")
     useEffect(() => {
-        setPassword( usefiller? (user_type === 'admin' ? 'admin' : "1") : '')
-    }, [user_type,usefiller])
+        setPassword(usefiller ? (role === 'admin' ? 'fabian' : "1") : '')
+    }, [role, usefiller])
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
         setSigningIn(true)
@@ -33,7 +32,7 @@ export default function LoginPage({ user_type, setRole }: LoginPageProps) {
             password,
         };
         try {
-            const route = user_type === 'admin' ? 'admin-login' : 'login'
+            const route = role === 'admin' ? 'admin-login' : 'login'
             const response = await fetch(`${import.meta.env.VITE_API_URL}/authn/${route}`, {
                 method: "POST",
                 credentials: "include",
@@ -43,17 +42,15 @@ export default function LoginPage({ user_type, setRole }: LoginPageProps) {
                 body: JSON.stringify(formData),
             });
 
-            const data = await response.json();
+            const data: {msg: string, role: Role; username: string } = await response.json();
 
             if (response.ok) {
-                setRole(user_type)
+                context?.setUserData({role:data.role,username:data.username})
                 setSigningIn(false)
-                console.log("User loggedIn:", data);
+                await context?.fetchPollsData(true)
+                // console.log("User loggedIn:", data);
                 toast.success(data.msg || 'Login successful!');
                 navigate('/home');
-                if (context) await context.fetchPollsData(true)
-                // await fetchUserData()
-                // await fetchRoomsData()
             } else {
                 setSigningIn(false)
                 console.error("Login error:", data);
@@ -79,15 +76,15 @@ export default function LoginPage({ user_type, setRole }: LoginPageProps) {
                 </div>
                 <h2>E3Voting</h2>
                 <p className="subtitle">
-                    {user_type === 'admin' ? "Sign in to manage Polls Data" : "Sign in to your account"}
+                    {role === 'admin' ? "Sign in to manage Polls Data" : "Sign in to your account"}
                 </p>
                 <form onSubmit={handleSubmit}>
-                    <label>{user_type === 'admin' ? "Admin ID" : "Martric No"}</label>
+                    <label>{role === 'admin' ? "Admin ID" : "Martric No"}</label>
                     <div className="input-group">
-                        {user_type === 'admin' ? <User /> : <IdCard className="icon" />}
+                        {role === 'admin' ? <User /> : <IdCard className="icon" />}
                         <input
                             type="text"
-                            placeholder={user_type === 'admin' ? 'admin' : 'FT23CMP0040'}
+                            placeholder={role === 'admin' ? 'admin' : 'FT23CMP0040'}
                             value={matric_no}
                             onChange={(e) => setMatricNo(e.target.value)}
                             required
@@ -109,7 +106,7 @@ export default function LoginPage({ user_type, setRole }: LoginPageProps) {
                     <button type="submit" className="signin-btn primary-btn">Sign in</button>
                 </form>
                 {
-                    user_type !== 'admin' ?
+                    role !== 'admin' ?
                         <div className='redirect flex'>
                             <p className="caption">Don't have an account?</p>
                             <Link to='/signup' >Sign Up</Link>
@@ -118,7 +115,7 @@ export default function LoginPage({ user_type, setRole }: LoginPageProps) {
                         <></>
                 }
                 {
-                    user_type !== 'admin' ?
+                    role !== 'admin' ?
                         <div className='redirect flex justify-self-cen'>
                             <p className="caption">Admin Demo -</p>
                             <Link to='/admin-login' >Login</Link>
