@@ -24,18 +24,19 @@
 .results-page .result-card .header .caption{
     font-size: 14px;
 }
-.results-page .result-card .header button{
-    border: 1px solid rgb(162, 161, 161);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.results-page .result-card .details-btn:hover{
+    background-color: var(--primary-btn-bg);
+}
+.results-page .result-card .details-btn{
     gap: 5px;
-    width: 90px;
     height: 35px;
     border-radius: 15px;
     background-color: rgba(255, 255, 255, 0.387);
+    font-size: 13px;
 }
-.results-page .result-card .header button svg{
+
+/* border: 1px solid rgb(162, 161, 161);  display: flex ; align-items: center; justify-content: center; gap: 5px; width: 90px; height: 35px; border-radius: 15px; background-color: rgba(255, 255, 255, 0.387); font-size: 13px */
+.results-page .result-card .header .details-btn svg{
     --size: 15px;
     width: var(--size);
     height: var(--size);

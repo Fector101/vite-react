@@ -6,6 +6,7 @@ import GoToTop from "../assets/js/GoToTop";
 import MyBarChart from '../ui/MyBarChart';
 import "../assets/css/resultspage.css";
 import { Role } from '../assets/js/helper';
+import { Link } from 'react-router';
 // ResultCard component
 
 interface PollOption {
@@ -17,8 +18,9 @@ interface IResultCard {
     title: string;
     description: string;
     options: PollOption[];
+    _id: string;
 }
-function ResultCard({ title, description, options }: IResultCard) {
+function ResultCard({ title, description, options,_id }: IResultCard) {
 
     const [card_width, setCardWidth] = useState(0);
 
@@ -56,7 +58,8 @@ function ResultCard({ title, description, options }: IResultCard) {
                     <h3>{title}</h3>
                     <p className='caption'>{description}</p>
                 </div>
-                <button>Details <ArrowRight /></button>
+                <Link to={`/poll/${_id}`} className='details-btn grey-btn flex algin-items-cen'>Details <ArrowRight /></Link>
+
             </div>
             <p className='total-votes-p caption'>Total votes: {totalVotes}</p>
             <MyBarChart students={students} votes={votes} card_width={card_width} />
@@ -114,7 +117,7 @@ export default function Resultspage({role}:{role:Role}){
             <section className="results-box">
                 {/* Map through the array and render ResultCard for each poll */}
                 {PollsData.map((poll, index) => (
-                    <ResultCard key={index} title={poll.title} description={poll.description} options={poll.options} />
+                    <ResultCard key={index} title={poll.title} description={poll.description} _id={poll._id} options={poll.options} />
                 ))}
             </section>
             <GoToTop />

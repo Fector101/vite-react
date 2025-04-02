@@ -22,10 +22,11 @@ interface VotingStat {
     title: string;
     description: string;
     options: PollOption[];
+    _id:string
 
 }
 
-function VotingStats({ title, description, options }: VotingStat) {
+function VotingStats({ title, description, options,_id }: VotingStat) {
     const [totalVotes, setTotalVotes] = useState<number>(0);
     useEffect(() => {
         const total_votes = getPollTotalVotes(options)
@@ -49,7 +50,7 @@ function VotingStats({ title, description, options }: VotingStat) {
                 })}
             </div>
             <p>Total votes: {totalVotes}</p>
-            <a className="view-all-votes-btn primary-btn">View Details <ArrowRight /></a>
+            <Link to={`/poll/${_id}`} className="view-all-votes-btn primary-btn">View Details <ArrowRight /></Link>
         </div>
     )
 }
