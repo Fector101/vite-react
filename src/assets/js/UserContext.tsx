@@ -4,9 +4,10 @@ import { toast } from "sonner";
 import { Role } from "./helper";
 
 
-interface IUserData {
+export interface IUserData {
     role: Role;
     username: string
+    matric_no:string
 }
 interface PollOption {
     text: string;
@@ -38,8 +39,9 @@ interface UserContextType {
     userData: IUserData;
     PollsMathData: IPollsMathData;
     setUserData: Dispatch<SetStateAction<IUserData>>;
-    setPolls: Dispatch<SetStateAction<IElection[]>>;
-    fetchPollsData: (silent?: boolean) => Promise<void>;
+    // setPolls: Dispatch<SetStateAction<IElection[]>>;
+    setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
+    // fetchPollsData: (silent?: boolean) => Promise<void>;
     fetchUserData: (silent?: boolean) => Promise<void>;
 }
 
@@ -53,16 +55,20 @@ export const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
     const [PollsData, setPolls] = useState<IElection[]>([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [PollsMathData, setPollsMathData] = useState<IPollsMathData>({ pollWithMostVotes: null, totalVotes: 0, activePollsCount: 0 });
-    const [userData, setUserData] = useState<IUserData>({ role: null, username: '' });
+    const [userData, setUserData] = useState<IUserData>({ role: null, username: '',matric_no:'' });
 
 
 
 
     useEffect(() => {
+        // console.log(isLoggedIn)
+        // if(!isLoggedIn) return
         const socket = io(import.meta.env.VITE_API_URL,{
             reconnectionAttempts:5,
             reconnectionDelay:1000*3,
+            withCredentials:true
         })
         socket.on("connect", () => {
             console.log("WebSocket Connected");
@@ -70,8 +76,11 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         });
 
         socket.on("pollsUpdate", (data) => {
-            console.log(data,'on polls update')
-            setPolls(data);
+            // console.log(data,'on polls update')
+            if(data){
+                setPolls(data.polls);
+                setPollsMathData(data.logic);
+            }
         });
 
         socket.on("disconnect", (reason) => {
@@ -82,7 +91,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             socket?.off("pollsUpdate");
             socket.disconnect();
         };
-    }, []);
+    }, [isLoggedIn]);
 
 
 
@@ -97,8 +106,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             });
             const data: IUserData & { msg: string } = await response.json();
             if (response.ok) {
-                setUserData({ username: data.username, role: data.role })
+                setUserData({ username: data.username, role: data.role,matric_no:data.matric_no })
                 console.log("Successfully User  data...");
+                setIsLoggedIn(true)
                 if (!silent) toast.success(data.msg);
             } else {
                 if (!silent) toast.error(data.msg);
@@ -110,32 +120,32 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         }
     };
 
-    const fetchPollsData = async (silent = false): Promise<void> => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/all-elections`, {
-                method: "GET",
-                credentials: "include",
-                headers: { "Content-Type": "application/json" },
-            });
-            const data: { elections: IElection[]; logic: IPollsMathData; msg: string } = await response.json();
-            if (response.ok) {
-                setPolls(data.elections);
-                setPollsMathData(data.logic)
-                console.log("Successfully Fetched Polls data...");
-                if (!silent) toast.success(data.msg);
-            } else {
-                if (!silent) toast.error(data.msg);
-                console.log("Bad Request Polls data...");
-            }
-        } catch (error) {
-            console.error("Network error:", error);
-        }
-    };
+    // const fetchPollsData = async (silent = false): Promise<void> => {
+        // try {
+        //     const response = await fetch(`${import.meta.env.VITE_API_URL}/all-elections`, {
+        //         method: "GET",
+        //         credentials: "include",
+        //         headers: { "Content-Type": "application/json" },
+        //     });
+        //     const data: { elections: IElection[]; logic: IPollsMathData; msg: string } = await response.json();
+        //     if (response.ok) {
+        //         setPolls(data.elections);
+        //         setPollsMathData(data.logic)
+        //         console.log("Successfully Fetched Polls data...");
+        //         if (!silent) toast.success(data.msg);
+        //     } else {
+        //         if (!silent) toast.error(data.msg);
+        //         console.log("Bad Request Polls data...");
+        //     }
+        // } catch (error) {
+        //     console.error("Network error:", error);
+        // }
+    // };
 
     // Fetch user data and polls data on mount
     useEffect(() => {
         fetchUserData(true);
-        fetchPollsData(true);
+        // fetchPollsData(true);
     }, []);
 
     return (
@@ -144,10 +154,13 @@ export const UserProvider = ({ children }: UserProviderProps) => {
                 userData,
                 PollsData,
                 PollsMathData,
+                
                 setUserData,
+                // setPolls,
+                setIsLoggedIn,
+
                 fetchUserData,
-                setPolls,
-                fetchPollsData
+                // fetchPollsData
             }}
         >
             {children}

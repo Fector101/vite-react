@@ -93,8 +93,8 @@ function App() {
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/polls" element={<Pollspage/>} />
                 <Route path="/poll/:id" element={<PollPage role={role} />} />
-                <Route path="/results" element={<Resultspage role={role} />} />
-                <Route path="/history" element={<Historypage role={role} />} />
+                <Route path="/results" element={<Resultspage />} />
+                <Route path="/history" element={<Historypage />} />
 
                 <Route path="/admin-login" element={<LoginPage role='admin' />} />
                 <Route path="*" element={<NotFoundpage />} />

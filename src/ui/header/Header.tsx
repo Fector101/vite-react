@@ -62,7 +62,7 @@ export default function Header({ className, role }: { className: string; role: R
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
-            context?.setUserData({role:null,username:''})
+            context?.setUserData({role:null,username:'',matric_no:''})
             navigate('/login')
         } catch (error) {
             console.error("Logout error:", error);

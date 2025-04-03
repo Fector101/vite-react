@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { IUserData, UserContext } from '../assets/js/UserContext';
+
 import { Lock, Vote, IdCard, User } from "lucide-react";
 import './../assets/css/loginpage.css'
-import { Link,useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export default function SignupPage() {
     const navigate = useNavigate()
+    const context = useContext(UserContext);
+
     const usefiller = process.env.NODE_ENV === 'development'
     const [matric_no, setMatricNo] = useState(usefiller ? "FT23CMP00001" : '');
     const [password, setPassword] = useState(usefiller ? "1" : '');
@@ -31,16 +35,16 @@ export default function SignupPage() {
                 body: JSON.stringify(formData),
             });
 
-            const data = await response.json();
+            const data: IUserData  & { msg: string } = await response.json();
 
             if (response.ok) {
-                setSigningIn(false)
                 console.log("User created:", data);
+                setSigningIn(false)
+                console.log({ role: data.role, username: data.username, matric_no: data.matric_no })
+                context?.setUserData({ role: data.role, username: data.username, matric_no: data.matric_no })
+                context?.setIsLoggedIn(true)
                 toast.success(data.msg || 'Signup successful!');
-                navigate('/polls');
-                // await fetchUserData()
-                // await fetchRoomsData()
-                // Redirect or update UI
+                navigate('/home');
             } else {
                 setSigningIn(false)
                 console.error("Signup error:", data);

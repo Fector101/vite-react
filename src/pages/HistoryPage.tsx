@@ -1,5 +1,4 @@
 import '../assets/css/historypage.css'
-import { Role } from '../assets/js/helper';
 // import VotingStatsCard from '../ui/VotingStatsCard';
 
 // type RunnerInfo = [string, number];
@@ -9,8 +8,7 @@ import { Role } from '../assets/js/helper';
 //     des: string;
 //     runners_info_tuple: RunnerInfo[];
 // }
-export default function Historypage({ role }: { role: Role }) {
-    console.log(role)
+export default function Historypage() {
 
     // const votingStatsArray: VotingStat[] = [
     //     {

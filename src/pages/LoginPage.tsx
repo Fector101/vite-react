@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from '../assets/js/UserContext';
+import { IUserData, UserContext } from '../assets/js/UserContext';
 
 import { Lock, Vote, IdCard, User } from "lucide-react";
 import './../assets/css/loginpage.css'
@@ -42,13 +42,12 @@ export default function LoginPage({ role }: LoginPageProps) {
                 body: JSON.stringify(formData),
             });
 
-            const data: {msg: string, role: Role; username: string } = await response.json();
+            const data: IUserData  & { msg: string }  = await response.json();
 
             if (response.ok) {
-                context?.setUserData({role:data.role,username:data.username})
+                context?.setUserData({ role: data.role, username: data.username, matric_no: data.matric_no })
                 setSigningIn(false)
-                await context?.fetchPollsData(true)
-                // console.log("User loggedIn:", data);
+                context?.setIsLoggedIn(true)
                 toast.success(data.msg || 'Login successful!');
                 navigate('/home');
             } else {

@@ -5,7 +5,6 @@ import { ArrowRight } from 'lucide-react';
 import GoToTop from "../assets/js/GoToTop";
 import MyBarChart from '../ui/MyBarChart';
 import "../assets/css/resultspage.css";
-import { Role } from '../assets/js/helper';
 import { Link } from 'react-router';
 // ResultCard component
 
@@ -71,7 +70,7 @@ function ResultCard({ title, description, options,_id }: IResultCard) {
     );
 }
 
-export default function Resultspage({role}:{role:Role}){
+export default function Resultspage(){
     // Array of poll data
     const context = useContext(UserContext);
     const [PollsData, setPollsData] = useState<IElection[]>([]);
@@ -92,7 +91,6 @@ export default function Resultspage({role}:{role:Role}){
     //     return () => {console.log('turned off');socket.off("pollUpdate");}
     // }, []);
     useEffect(() => {
-        console.log(role)
         if (context?.PollsData) {
             // console.log(context.PollsData)
             setPollsData(context.PollsData);

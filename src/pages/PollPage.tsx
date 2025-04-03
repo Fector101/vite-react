@@ -6,6 +6,7 @@ import MyBarChart from "../ui/MyBarChart";
 import { useContext, useEffect, useState } from "react";
 import { formatDate, getPollTotalVotes, Role } from "../assets/js/helper";
 import { IElection, UserContext } from "../assets/js/UserContext";
+import { toast } from "sonner";
 
 
 function Choice({ text, setSelected, _id, selected }: { _id: string; text: string; setSelected: (value: string) => void; selected: string | null }) {
@@ -39,16 +40,22 @@ function PollPage({ role }: { role: Role }) {
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/vote`, {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ pollId: requested_poll_id, optionId: selected }),
+                body: JSON.stringify({ pollId: requested_poll_id, optionId: selected, matric_no: context?.userData.matric_no }),
             });
 
             const data = await response.json();
-            // if (!response.ok) throw new Error(data.msg);
+            if (response.ok) {
+                console.log("Vote successful:", data.msg);
+                toast.success(data.msg || 'Vote Casted!');
 
-            console.log("Vote successful:", data.msg);
+            } else {
+                console.error("Casting Vote error:", data);
+                toast.warning(data.msg)
+            }
         } catch (error) {
             console.error("Voting error:", error);
         }
