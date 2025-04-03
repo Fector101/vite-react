@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, ReactNode, Dispatch, SetStateAction } from "react";
+import { io } from "socket.io-client";
 import { toast } from "sonner";
 import { Role } from "./helper";
 
@@ -35,8 +36,8 @@ interface IPollsMathData {
 interface UserContextType {
     PollsData: IElection[];
     userData: IUserData;
-    setUserData: Dispatch<SetStateAction<IUserData>>;
     PollsMathData: IPollsMathData;
+    setUserData: Dispatch<SetStateAction<IUserData>>;
     setPolls: Dispatch<SetStateAction<IElection[]>>;
     fetchPollsData: (silent?: boolean) => Promise<void>;
     fetchUserData: (silent?: boolean) => Promise<void>;
@@ -54,6 +55,38 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [PollsData, setPolls] = useState<IElection[]>([]);
     const [PollsMathData, setPollsMathData] = useState<IPollsMathData>({ pollWithMostVotes: null, totalVotes: 0, activePollsCount: 0 });
     const [userData, setUserData] = useState<IUserData>({ role: null, username: '' });
+
+
+
+
+    useEffect(() => {
+        const socket = io(import.meta.env.VITE_API_URL,{
+            reconnectionAttempts:5,
+            reconnectionDelay:1000*3,
+        })
+        socket.on("connect", () => {
+            console.log("WebSocket Connected");
+            socket?.emit("requestPollsData");
+        });
+
+        socket.on("pollsUpdate", (data) => {
+            console.log(data,'on polls update')
+            setPolls(data);
+        });
+
+        socket.on("disconnect", (reason) => {
+            console.warn("WebSocket Disconnected:", reason);
+        });
+
+        return () => {
+            socket?.off("pollsUpdate");
+            socket.disconnect();
+        };
+    }, []);
+
+
+
+
 
     async function fetchUserData(silent = false): Promise<void> {
         try {
@@ -73,6 +106,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             }
         } catch (error) {
             console.error("fetchUserData error:", error);
+            if (!silent) toast.error("Failed to fetch user data");
         }
     };
 

@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { Clock, Dot, ArrowRight } from "lucide-react";
 import GoToTop from "../assets/js/GoToTop.ts";
 import '../assets/css/pollspage.css';
-import { formatDate, Role } from '../assets/js/helper.ts';
+import { formatDate } from '../assets/js/helper.ts';
 
 function Poll({ status, endDate, title, description, _id }: IElectionPreview) {
 
@@ -33,7 +33,7 @@ export interface IElectionPreview {
     _id: string
 }
 
-export default function PollPage({ role }: { role: Role }) {
+export default function PollPage() {
     const context = useContext(UserContext);
     const [PollsData, setPollsData] = useState<IElectionPreview[]>([]);
     //     {
@@ -77,8 +77,6 @@ export default function PollPage({ role }: { role: Role }) {
     // ];
 
     useEffect(() => {
-        console.log(role)
-
         if (context?.PollsData) {
             setPollsData(context.PollsData);
             // setPollsData([

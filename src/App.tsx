@@ -91,7 +91,7 @@ function App() {
                 <Route path="/admin" element={<Adminpanelpage role={role} />} />
                 <Route path="/login" element={<LoginPage role="student"/>} />
                 <Route path="/signup" element={<SignupPage />} />
-                <Route path="/polls" element={<Pollspage role={role} />} />
+                <Route path="/polls" element={<Pollspage/>} />
                 <Route path="/poll/:id" element={<PollPage role={role} />} />
                 <Route path="/results" element={<Resultspage role={role} />} />
                 <Route path="/history" element={<Historypage role={role} />} />

@@ -6,9 +6,7 @@ import MyBarChart from "../ui/MyBarChart";
 import { useContext, useEffect, useState } from "react";
 import { formatDate, getPollTotalVotes, Role } from "../assets/js/helper";
 import { IElection, UserContext } from "../assets/js/UserContext";
-import { io } from "socket.io-client";
 
-const socket = io(import.meta.env.VITE_API_URL);
 
 function Choice({ text, setSelected, _id, selected }: { _id: string; text: string; setSelected: (value: string) => void; selected: string | null }) {
     return (
@@ -36,20 +34,6 @@ function PollPage({ role }: { role: Role }) {
     const [ongoing, setOngoing] = useState(1);
 
 
-
-    useEffect(() => {
-        socket.emit("joinPoll", requested_poll_id);
-        socket.on("pollUpdate", (data) => {
-            console.log(data)
-            if (data._id === requested_poll_id) {
-                setPollData(data)
-
-                // setPoll((prev) => ({ ...prev, options: data.options }));
-            }
-        });
-
-        return () => { console.log('turned off'); socket.off("pollUpdate"); }
-    }, [requested_poll_id]);
 
     async function vote() {
         try {
