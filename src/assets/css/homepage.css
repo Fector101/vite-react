@@ -138,7 +138,7 @@
     background-color: white;
     height: 33px;
     padding: 0 8px;
-    max-width: 99%;
+    margin-left: auto;
 }
 
 .recent-votings .main-votings-box {

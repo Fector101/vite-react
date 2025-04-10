@@ -177,7 +177,7 @@ export default function Homepage({role}:{role:Role}) {
             </section>
 
             <section className="recent-votings">
-                <div className="heading">
+                <div className="heading flex-wrap">
                     <h3>Recent Active Polls</h3>
                     <Link to='/polls'>View All</Link>
                 </div>
