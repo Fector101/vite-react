@@ -2,7 +2,7 @@
     padding: 20px;
 }
 
-.poll-page.page button {
+.poll-page.page .back-btn {
     display: flex;
     height: 40px;
     align-items: center;
@@ -12,7 +12,7 @@
     gap: 8px;
 }
 
-.poll-page.page button svg {
+.poll-page.page .back-btn svg {
     --size: 16px;
     width: var(--size);
     height: var(--size);
@@ -42,6 +42,8 @@
     width: var(--size);
     height: var(--size);
     margin: 0 5px;
+    position: relative;
+    top: -2px;
 }
 
 .poll-page.page main {
@@ -89,6 +91,8 @@
     box-shadow: 0px 0px 4px 1px #a1a1a12c;
     max-width: 100%;
     height: max-content;
+    display: flex;
+    flex-direction: column;
 }
 
 .poll-page.page .voting-card h3 {
@@ -98,13 +102,10 @@
 .poll-page.page .choice-input-box label:hover {
     cursor: pointer;
 }
+
 .poll-page.page .choice-input-box label {
     font-weight: 500;
     font-size: 14px;
-    /* height: 100%;
-    display: flex;
-    align-items: center;
-    flex: 1; */
 }
 
 .poll-page.page .choice-input-box {
@@ -115,9 +116,15 @@
 
 .poll-page.page .voting-card button {
     margin-top: 10px;
-    width: 100%;
     position: relative;
     overflow: hidden;
+    height: 40px;
+    gap: 10px;
+}
+.poll-page.page .voting-card button svg{
+    --size: 16px;
+    width: var(--size);
+    height: var(--size);
 }
 
 .poll-page.page .voting-card button.disabled::after {

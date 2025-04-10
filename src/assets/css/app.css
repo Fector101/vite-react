@@ -44,6 +44,10 @@ body>#root {
     height: 100vh;
 }
 
+.page section.heading > div:first-of-type .caption{
+    margin-top: 10px;
+}
+
 .page .heading button {
     height: 38px;
     padding: 0 10px;

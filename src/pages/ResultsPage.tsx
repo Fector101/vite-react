@@ -56,13 +56,12 @@ function ResultCard({ title, description, options,_id }: IResultCard) {
 
     return (
         <div className='result-card'>
-            <div className='header fd-row flex space-between'>
+            <div className='header fd-row flex space-between flex-wrap'>
                 <div className='fd-column'>
                     <h3>{title}</h3>
                     <p className='caption'>{description}</p>
                 </div>
                 <Link to={`/poll/${_id}`} className='details-btn grey-btn flex algin-items-cen'>Details <ArrowRight /></Link>
-
             </div>
             <p className='total-votes-p caption'>Total votes: {totalVotes}</p>
             <MyBarChart students={students} votes={votes} card_width={card_width} />

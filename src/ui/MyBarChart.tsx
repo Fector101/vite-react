@@ -64,5 +64,5 @@ export default function MyBarChart({ card_width,students,votes }: { card_width: 
         }
     };
 
-    return <BarChart {...chartSetting} />
+    return <BarChart {...chartSetting} className='align-self-cen'/>
 }

@@ -86,7 +86,7 @@ function PollPage({ role }: { role: Role }) {
 
     return (
         <div className="page poll-page">
-            <button onClick={() => navigate(-1)} className="grey-btn">
+            <button onClick={() => navigate(-1)} className="grey-btn back-btn">
                 <ArrowLeft />
                 Back
             </button>
@@ -113,7 +113,7 @@ function PollPage({ role }: { role: Role }) {
                         {
                             PollData?.options.map((each, i) => <Choice key={i} text={each.text} _id={each._id} selected={selected} setSelected={setSelected} />)
                         }
-                        <button onClick={vote} className={"primary-btn flex x-flex-align" + (selected ? '' : ' disabled')}> <Vote />  Submit Vote</button>
+                        <button onClick={vote} className={"algin-items-cen primary-btn flex x-flex-align" + (selected ? '' : ' disabled')}> <Vote />  Submit Vote</button>
                     </div>
                 }
                 <div className="voting-card">

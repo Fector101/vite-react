@@ -27,10 +27,6 @@
     padding: 0 20px;
 }
 
-
-
-
-
 .landingpage .header .btn:first-of-type{
     margin-left: auto;
     margin-right: 10px;
@@ -84,8 +80,9 @@
     gap: 10px;
     align-items: center;
     justify-content: center;
-    height: 40px;
-    width: 150px;
+    /* height: 40px; */
+    padding: 10px 12px;
+    /* width: 150px; */
     text-decoration: none;
 }
 
@@ -134,7 +131,11 @@
 }
 
 @media screen and (max-width:500px) {
+    .landingpage .header .btn{
+        padding: 8px 10px;
+        font-size: 14px;
 
+    }
     .landingpage section:not(.header) {
         padding: 0 25px;
     }
@@ -145,6 +146,9 @@
 
     .landingpage .main p {
         font-size: 14px;
+    }
+    .landingpage .main a {
+        font-size: 15px;
     }
 
     .landingpage .features-box .feature {
