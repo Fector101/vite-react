@@ -42,7 +42,13 @@ type PollFormProps = {
 function PollForm({ setFormPollModal }: PollFormProps) {
     const [title, setTitle] = useState('Time For MTH Lecture');
     const [description, setDescription] = useState('Chose Time for MTH Class');
-    const [endDate, setEndDate] = useState('2025-04-03');
+    const [endDate, setEndDate] = useState(() => {
+        const now = new Date();
+        now.setDate(now.getDate() + 3);
+        return now.toISOString().split('T')[0];
+    });
+
+    // const [endDate, setEndDate] = useState('2025-04-03');
     const [options, setOptions] = useState<{ id: number, value: string }[]>([
         { id: 1, value: '8AM' },
         { id: 2, value: '3PM' }
@@ -179,81 +185,39 @@ function PollForm({ setFormPollModal }: PollFormProps) {
         </div>
     )
 }
-
 export default function Adminpanelpage({ role }: { role: Role }) {
     const context = useContext(UserContext);
     const [PollsData, setPollsData] = useState<IElection[]>([]);
     const [poll_form_modal, setFormPollModal] = useState(false);
+    const [selectedTab, setSelectedTab] = useState<'all' | 'active' | 'closed'>('all'); // Add selectedTab state
 
+    function newStatus(endDate: string | undefined) {
+        if (!endDate) return false;
+        const today = new Date();
+        return new Date(endDate) >= today;
+    }
 
     useEffect(() => {
         if (context?.PollsData) {
-            // console.log(context.PollsData)
             setPollsData(context.PollsData);
-            // setPollsData(
-            //         [{
-            //     _id: '1',
-            //     title: "Sug Election",
-            //     description: "About Scho",
-            //     startDate: "25/03/2025",
-            //     endDate: "1 Jan 1111",
-            //     options:[{text:'',votes:2,_id:''}],
-            //     voters: [],
-            //     status: "ongoing",
-            // }]);
-
         }
     }, [context?.PollsData]);
 
-
-
-    // useEffect(() => {
-    //     console.log(PollsData)
-    //     setPolls(PollsData)
-
-        // setPolls([
-        //     {
-        //         id: 1,
-        //         title: "Sug Election",
-        //         description: "About Scho",
-        //         created: "25/03/2025",
-        //         endDate: "1 Jan 1111",
-        //         participants: 0,
-        //         status: "Active",
-        //     },
-        //     {
-        //         id: 2,
-        //         title: "Student Council President",
-        //         description: "Vote for your preferred candidate for Student C...",
-        //         created: "17/03/2025",
-        //         endDate: "26 Mar 2025",
-        //         participants: 74,
-        //         status: "Active",
-        //     },
-        //     {
-        //         id: 3,
-        //         title: "Cafeteria Menu Changes",
-        //         description: "Which new food option would you like to see in t...",
-        //         created: "21/03/2025",
-        //         endDate: "No end date",
-        //         participants: 174,
-        //         status: "Active",
-        //     },
-        //     {
-        //         id: 4,
-        //         title: "Spring Dance Theme",
-        //         description: "Select your preferred theme for the upcoming S...",
-        //         created: "22/02/2025",
-        //         endDate: "9 Mar 2025",
-        //         participants: 128,
-        //         status: "Closed",
-        //     },
-        // ]);
-    // }, [PollsData]);
-    // console.log(role)
     if (role !== 'admin') {
-        return <p>Proected Route</p>
+        return <p>Protected Route</p>;
     }
+
+    // Filter PollsData based on the selected tab
+    const filteredPollsData = PollsData.filter((poll) => {
+        if (selectedTab === 'all') {
+            return true;
+        } else if (selectedTab === 'active') {
+            return newStatus(poll.endDate);
+        } else if (selectedTab === 'closed') {
+            return !newStatus(poll.endDate);
+        }
+        return true;
+    });
 
     return (
         <div className="adminpage page" style={{ overflowY: poll_form_modal ? 'hidden' : 'auto' }}>
@@ -272,13 +236,26 @@ export default function Adminpanelpage({ role }: { role: Role }) {
                 <div className='row head'>
                     <h3>Manage Polls</h3>
                     <div className='row tab-btns'>
-                        <button className='active'><Filter /> All</button>
-                        <button><CheckSquare />Active</button>
-                        <button><XSquare />Closed</button>
+                        <button
+                            className={selectedTab === 'all' ? 'active' : ''}
+                            onClick={() => setSelectedTab('all')}>
+                            <Filter /> All
+                        </button>
+                        <button
+                            className={selectedTab === 'active' ? 'active' : ''}
+                            onClick={() => setSelectedTab('active')}>
+                            <CheckSquare /> Active
+                        </button>
+                        <button
+                            className={selectedTab === 'closed' ? 'active' : ''}
+                            onClick={() => setSelectedTab('closed')}>
+                            <XSquare /> Closed
+                        </button>
                     </div>
                 </div>
-                <div className='row sub-text caption'><Calendar />
-                    <p>Showing {PollsData.length} Polls</p>
+                <div className='row sub-text caption'>
+                    <Calendar />
+                    <p>Showing {filteredPollsData.length} Polls</p>
                 </div>
                 <table>
                     <thead>
@@ -291,13 +268,13 @@ export default function Adminpanelpage({ role }: { role: Role }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {PollsData.map((poll) => (
+                        {filteredPollsData.map((poll) => (
                             <tr key={poll._id}>
                                 <td>
                                     <div className="poll-title">
                                         {poll.title}
-                                        <span className={`status ${poll.status.toLowerCase()}`}>
-                                            {poll.status}
+                                        <span className={`status ${newStatus(poll.endDate)?'active' : 'closed'}`}>
+                                            {newStatus(poll.endDate) ? 'ongoing' : 'ended'}
                                         </span>
                                     </div>
                                     <p className="poll-description">{poll.description}</p>
@@ -306,11 +283,17 @@ export default function Adminpanelpage({ role }: { role: Role }) {
                                 <td className='date caption'>{formatDate(poll.endDate)}</td>
                                 <td className='users-row'><Users /> {poll.options.length}</td>
                                 <td>
-                                    {poll.status === 'ongoing' ? (
-                                        <button className="action-btn activate">✅ Active</button>
-                                    ) : (
-                                        <button className="action-btn close">❌ Ended</button>
-                                    )}
+                                    <button className={"action-btn " + (newStatus(poll.endDate) ? 'active' : 'close')}>
+                                        {newStatus(poll.endDate) ? (
+                                            <>
+                                                <CheckSquare /> Active
+                                            </>
+                                        ) : (
+                                            <>
+                                                <X /> Ended
+                                            </>
+                                        )}
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -320,3 +303,4 @@ export default function Adminpanelpage({ role }: { role: Role }) {
         </div>
     );
 }
+

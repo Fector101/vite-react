@@ -66,8 +66,9 @@ export default function Homepage({role}:{role:Role}) {
     const [famousPoll, setFamousPoll] = useState<IElection|null>(null)
     useEffect(() => {
         if (context?.PollsData) {
-            const data = context.PollsData
-            setPollsData(data);
+            const today = new Date();
+            const activePolls = context.PollsData.filter(poll => { return new Date(poll.endDate) >= today; });
+            setPollsData(activePolls);
         }
     }, [context?.PollsData]);
     useEffect(() => {

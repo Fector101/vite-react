@@ -32,7 +32,7 @@ function PollPage({ role }: { role: Role }) {
 
     const [selected, setSelected] = useState<string | null>(null);
     const [card_width, setCardWidth] = useState(0);
-    const [ongoing, setOngoing] = useState(1);
+    const [ongoing, setOngoing] = useState(false);
 
 
 
@@ -62,7 +62,7 @@ function PollPage({ role }: { role: Role }) {
     }
 
     useEffect(() => {
-        setOngoing(0)
+        setOngoing(false)
         const handleResize = () => {
             const card_width = document.querySelector(".voting-card")?.getBoundingClientRect().width || 100;
             setCardWidth(card_width);
@@ -76,11 +76,22 @@ function PollPage({ role }: { role: Role }) {
         };
     }, []);
 
-
+    
+    function newStatus(endDate: string | undefined) {
+        console.log(endDate)
+        if (!endDate) return false
+        const today = new Date();
+        return new Date(endDate) >= today
+    }
     useEffect(() => {
-        console.log(role)
+        console.log(role,context?.PollsData)
         if (context?.PollsData) {
-            setPollData(context.PollsData.find(each_poll => each_poll._id === requested_poll_id));
+            setPollData(()=>{
+                const the_one = context.PollsData.find(each_poll => each_poll._id === requested_poll_id)
+                setOngoing(newStatus(the_one?.endDate))
+                return the_one
+            }); 
+
         }
     }, [context?.PollsData, requested_poll_id]);
 
@@ -96,18 +107,13 @@ function PollPage({ role }: { role: Role }) {
                     <p className="caption">{PollData?.description}</p>
                 </div>
                 <div className="flex algin-items-cen">
-                    <div className="badge state active"> <Dot /> Active </div>
+                    <div className={"badge state " + (newStatus(PollData?.endDate)?'active':'ended')}> <Dot /> {newStatus(PollData?.endDate)?'Active':'Closed'} </div>
                     <Clock className="caption clock" />
-                    <p className="caption date"> Ends: {formatDate(PollData?.endDate || '')}</p>
+                    <p className="caption date"> {ongoing?'Ends':'Ended'}: {formatDate(PollData?.endDate || '')}</p>
                 </div>
             </section>
             <main className="flex flex-wrap">
                 {ongoing ?
-                    <div className="voting-card expired">
-                        <AlertCircle />
-                        <p>Voting Closed</p>
-                        <p className="caption">This poll is no longer accepting votes</p>
-                    </div> :
                     <div className="voting-card">
                         <h3>Cast Your Vote</h3>
                         {
@@ -115,6 +121,12 @@ function PollPage({ role }: { role: Role }) {
                         }
                         <button onClick={vote} className={"algin-items-cen primary-btn flex x-flex-align" + (selected ? '' : ' disabled')}> <Vote />  Submit Vote</button>
                     </div>
+                    :
+                    <div className="voting-card expired">
+                        <AlertCircle />
+                        <p>Voting Closed</p>
+                        <p className="caption">This poll is no longer accepting votes</p>
+                    </div> 
                 }
                 <div className="voting-card">
                     <h3>Results</h3>

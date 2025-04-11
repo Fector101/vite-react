@@ -6,12 +6,15 @@ import GoToTop from "../assets/js/GoToTop.ts";
 import '../assets/css/pollspage.css';
 import { formatDate } from '../assets/js/helper.ts';
 
-function Poll({ status, endDate, title, description, _id }: IElectionPreview) {
-
+export function Poll({ endDate, title, description, _id }: IElectionPreview) {
+    function newStatus(){
+        const today = new Date();
+        return new Date(endDate) >= today ? 'ongoing' :'ended';
+    }
     return (
         <div className="poll-card">
             <div className="row">
-                <div className="badge state active"><Dot /> {status}</div>
+                <div className={"badge state active "+newStatus()}><Dot /> {newStatus()}</div>
                 <div className="caption">
                     <Clock />
                     <p>
@@ -29,88 +32,19 @@ export interface IElectionPreview {
     title: string;
     description: string;
     endDate: string;
-    status: "ongoing" | "completed";
+    // status: "ongoing" | "completed";
     _id: string
 }
 
 export default function PollPage() {
     const context = useContext(UserContext);
     const [PollsData, setPollsData] = useState<IElectionPreview[]>([]);
-    //     {
-    // state: "Active",
-    // end_date: "2025-04-15",
-    // title: "Sports Captain Election",
-    // desc: "Choose the next leader for the school's sports teams."
-    //     },
-
-    // const PollsData = [
-    //     {
-    //         status: "Active",
-    //         endDate: "2025-04-10",
-    //         title: "Best Student Representative",
-    //         description: "Vote for the best candidate to represent the student body."
-    //     },
-    //     {
-    //         status: "Active",
-    //         endDate: "2025-04-15",
-    //         title: "Sports Captain Election",
-    //         description: "Choose the next leader for the school's sports teams."
-    //     },
-    //     {
-    //         status: "Active",
-    //         endDate: "2025-03-20",
-    //         title: "New Library Policies",
-    //         description: "Vote on proposed changes to the library's opening hours and rules."
-    //     },
-    //     {
-    //         status: "Active",
-    //         endDate: "2025-03-20",
-    //         title: "New Library Policies",
-    //         description: "Vote on proposed changes to the library's opening hours and rules."
-    //     },
-    //     {
-    //         status: "Active",
-    //         endDate: "2025-03-20",
-    //         title: "New Library Policies",
-    //         description: "Vote on proposed changes to the library's opening hours and rules."
-    //     }
-    // ];
 
     useEffect(() => {
         if (context?.PollsData) {
-            setPollsData(context.PollsData);
-            // setPollsData([
-            //     {
-            //         status: "Active",
-            //         endDate: "2025-04-10",
-            //         title: "Best Student Representative",
-            //         description: "Vote for the best candidate to represent the student body."
-            //     },
-            //     {
-            //         status: "Active",
-            //         endDate: "2025-04-15",
-            //         title: "Sports Captain Election",
-            //         description: "Choose the next leader for the school's sports teams."
-            //     },
-            //     {
-            //         status: "Active",
-            //         endDate: "2025-03-20",
-            //         title: "New Library Policies",
-            //         description: "Vote on proposed changes to the library's opening hours and rules."
-            //     },
-            //     {
-            //         status: "Active",
-            //         endDate: "2025-03-20",
-            //         title: "New Library Policies",
-            //         description: "Vote on proposed changes to the library's opening hours and rules."
-            //     },
-            //     {
-            //         status: "Active",
-            //         endDate: "2025-03-20",
-            //         title: "New Library Policies",
-            //         description: "Vote on proposed changes to the library's opening hours and rules."
-            //     }
-            // ])
+            const today = new Date();
+            const activePolls = context.PollsData.filter(poll => { return new Date(poll.endDate) >= today; });
+            setPollsData(activePolls);
         }
     }, [context?.PollsData]);
 

@@ -1,51 +1,25 @@
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../assets/js/UserContext';
+
 import '../assets/css/historypage.css'
-// import VotingStatsCard from '../ui/VotingStatsCard';
+import { IElectionPreview, Poll } from './PollsPage'
 
-// type RunnerInfo = [string, number];
-
-// interface VotingStat {
-//     title: string;
-//     des: string;
-//     runners_info_tuple: RunnerInfo[];
-// }
 export default function Historypage() {
+    const context = useContext(UserContext);
+    const [PollsData, setPollsData] = useState<IElectionPreview[]>([]);
 
-    // const votingStatsArray: VotingStat[] = [
-    //     {
-    //         title: "Best Student Representative",
-    //         des: "Vote for the best candidate to represent the student body.",
-    //         runners_info_tuple: [
-    //             ["Alice Johnson", 250],
-    //             ["Bob Smith", 180],
-    //             ["Charlie Brown", 320],
-    //             ["Diana Prince", 210]
-    //         ]
-    //     },
-    //     {
-    //         title: "Sports Captain Election",
-    //         des: "Choose the next leader for our sports team.",
-    //         runners_info_tuple: [
-    //             ["Ethan Williams", 200],
-    //             ["Sophie Turner", 340],
-    //             ["Liam Brown", 275]
-    //         ]
-    //     },
-    //     {
-    //         title: "Best Club of the Year",
-    //         des: "Vote for your favorite club on campus.",
-    //         runners_info_tuple: [
-    //             ["Drama Club", 410],
-    //             ["Robotics Club", 350],
-    //             ["Music Club", 290]
-    //         ]
-    //     }
-    // ];
+    useEffect(() => {
+        if (context?.PollsData) {
+            const today = new Date();
+            const expiredPolls = context.PollsData.filter(poll => new Date(poll.endDate) <= today);
+            setPollsData(expiredPolls);
+        }
+    }, [context?.PollsData]);
 
-    // Usage in a component
 
 
     return (
-        <div className="history-page page">
+        <div className="history-page page polls-page">
             <section className="heading">
                 <div>
                     <h1>Past Polls</h1>
@@ -55,9 +29,7 @@ export default function Historypage() {
 
             <section className="recent-votings">
                 <div className="main-votings-box">
-                    {/* {votingStatsArray.map((votingData, index) => (
-                        <VotingStatsCard key={index} title={votingData.title} des={votingData.des} runners_info_tuple={votingData.runners_info_tuple} />
-                    ))} */}
+                    {PollsData.map((poll, index) => <Poll key={index} {...poll} />)}
                 </div>
             </section>
         </div>

@@ -76,7 +76,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         });
 
         socket.on("pollsUpdate", (data) => {
-            // console.log(data,'on polls update')
+            console.log(data,'on polls update')
             if(data){
                 setPolls(data.polls);
                 setPollsMathData(data.logic);
