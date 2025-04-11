@@ -2,6 +2,7 @@ import { Route, Routes, useLocation } from "react-router";
 import { useContext, useEffect, useState } from "react";
 import { Toaster } from "sonner";
 import { UserContext } from './assets/js/UserContext';
+import { Analytics } from "@vercel/analytics/react"
 
 import './assets/css/quick-styles.css'
 import './assets/css/app.css'
@@ -102,6 +103,7 @@ function App() {
             {btn_state && <button className="primary-btn" id="menu-btn" onClick={toggleHeader}>
                 {header_state ? <X /> : <Menu />}
             </button>}
+            <Analytics/>
         </>
     )
 }
